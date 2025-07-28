@@ -1,0 +1,51 @@
+
+.not-found-icon {
+  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
+  animation: float 6s ease-in-out infinite;
+}
+
+/* 数字跳动动画 */
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+/* 悬浮动画 */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+/* 错误页面装饰元素 */
+.error-decoration {
+  position: absolute;
+  opacity: 0.1;
+  z-index: 0;
+}
+
+.error-decoration.top-left {
+  top: 10%;
+  left: 10%;
+  animation: float 8s ease-in-out infinite;
+}
+
+.error-decoration.bottom-right {
+  bottom: 10%;
+  right: 10%;
+  animation: float 10s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+/* 深色模式适配 */
+.dark .error-decoration {
+  opacity: 0.05;
+}
+
+/* 响应式调整 */
+@media (max-width: 640px) {
+  .error-decoration {
+    width: 120px;
+    height: 120px;
+  }
+}
