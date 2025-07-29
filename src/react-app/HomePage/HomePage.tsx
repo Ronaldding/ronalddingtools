@@ -4,6 +4,9 @@ import reactLogo from "../assets/react.svg";
 import viteLogo from "/vite.svg";
 import cloudflareLogo from "../assets/Cloudflare_Logo.svg";
 import honoLogo from "../assets/hono.svg";
+import { Link } from "react-router-dom";
+
+
 
 function HomePage() {
   const [count, setCount] = useState(0);
@@ -82,39 +85,47 @@ function HomePage() {
 
         {/* 技术栈展示 */}
         <section className="mb-16">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Link to="/" className="no-underline">
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 card-hover transform transition-all duration-300 hover:scale-105">
-              <div className="flex justify-center mb-4">
+                <div className="flex justify-center mb-4">
                 <img src={viteLogo} className="h-16 w-16" alt="Vite logo" />
-              </div>
-              <h3 className="text-xl font-bold mb-2 text-center">Vite</h3>
-              <p className="text-gray-600 dark:text-gray-300 text-center">极速前端构建工具，提供即时热更新体验</p>
+                </div>
+                <h3 className="text-xl font-bold mb-2 text-center">Vite</h3>
+                <p className="text-gray-600 dark:text-gray-300 text-center">极速前端构建工具，提供即时热更新体验</p>
             </div>
+            </Link>
 
+            <Link to="/qr-code" className="no-underline">
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 card-hover transform transition-all duration-300 hover:scale-105">
-              <div className="flex justify-center mb-4">
+                <div className="flex justify-center mb-4">
                 <img src={reactLogo} className="h-16 w-16" alt="React logo" />
-              </div>
-              <h3 className="text-xl font-bold mb-2 text-center">React</h3>
-              <p className="text-gray-600 dark:text-gray-300 text-center">用于构建用户界面的JavaScript库</p>
+                </div>
+                <h3 className="text-xl font-bold mb-2 text-center">React</h3>
+                <p className="text-gray-600 dark:text-gray-300 text-center">用于构建用户界面的JavaScript库</p>
             </div>
+            </Link>
 
+            <Link to="/" className="no-underline">
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 card-hover transform transition-all duration-300 hover:scale-105">
-              <div className="flex justify-center mb-4">
+                <div className="flex justify-center mb-4">
                 <img src={honoLogo} className="h-16 w-16" alt="Hono logo" />
-              </div>
-              <h3 className="text-xl font-bold mb-2 text-center">Hono</h3>
-              <p className="text-gray-600 dark:text-gray-300 text-center">轻量级Web框架，专为Cloudflare Workers优化</p>
+                </div>
+                <h3 className="text-xl font-bold mb-2 text-center">Hono</h3>
+                <p className="text-gray-600 dark:text-gray-300 text-center">轻量级Web框架，专为Cloudflare Workers优化</p>
             </div>
+            </Link>
 
+            <Link to="/not-found" className="no-underline">
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 card-hover transform transition-all duration-300 hover:scale-105">
-              <div className="flex justify-center mb-4">
+                <div className="flex justify-center mb-4">
                 <img src={cloudflareLogo} className="h-16 w-16" alt="Cloudflare logo" />
-              </div>
-              <h3 className="text-xl font-bold mb-2 text-center">Cloudflare</h3>
-              <p className="text-gray-600 dark:text-gray-300 text-center">全球CDN和无服务器平台，提供高性能部署</p>
+                </div>
+                <h3 className="text-xl font-bold mb-2 text-center">Cloudflare</h3>
+                <p className="text-gray-600 dark:text-gray-300 text-center">全球CDN和无服务器平台，提供高性能部署</p>
             </div>
-          </div>
+            </Link>
+        </div>
         </section>
 
         {/* 功能卡片 */}

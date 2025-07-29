@@ -1,6 +1,7 @@
-import "./NotFoundPage.css";
 
-const NotFoundPage = () => {
+
+
+function NotFoundPage () {
 
   return (
     <div>
