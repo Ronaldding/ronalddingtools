@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';  // 生成 QR 码的 canvas 组件
 import { saveAs } from 'file-saver';         // 下载功能
 import Header from '../components/Header';
