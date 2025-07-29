@@ -27,7 +27,7 @@ function Header() {
         <ul className="flex space-x-6">
             <li><a href="/" className="text-white hover:text-yellow-300 transition-colors duration-300">Home</a></li>
             <li><a href="https://llm.ronaldding.com" className="text-white hover:text-yellow-300 transition-colors duration-300" target="_blank" rel="noopener noreferrer">LLM</a></li>
-            <li><a href="https://tv.ronaldding.com" className="text-white hover:text-yellow-300 transition-colors duration-300" target="_blank" rel="noopener noreferrer">TV</a></li>
+            <li><a href="/404" className="text-white hover:text-yellow-300 transition-colors duration-300">404</a></li>
         </ul>
         </nav>
     </div>

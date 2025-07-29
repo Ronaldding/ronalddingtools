@@ -55,19 +55,19 @@ function QRCodePage() {
         {/* Configuration Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           {/* Size Slider */}
-          <div className="bg-white/90 backdrop-blur-md p-6 rounded-lg shadow-xl transform hover:scale-105 transition-transform duration-300">
-            <label className="block mb-2 text-lg font-semibold text-purple-900">
-              Size: {qrConfig.size}px
-            </label>
-            <input
-              type="range"
-              min="100"
-              max="500"
-              value={qrConfig.size}
-              onChange={(e) => handleConfigChange('size', Number(e.target.value))}
-              className="w-full accent-yellow-400"
-            />
-          </div>
+            <div className="bg-white/90 backdrop-blur-md p-6 rounded-lg shadow-xl transform hover:scale-105 transition-transform duration-300">
+                <label className="block mb-2 text-lg font-semibold text-purple-900">
+                Size: {qrConfig.size}px
+                </label>
+                <input
+                type="range"
+                min="100"
+                max="500"
+                value={qrConfig.size}
+                onChange={(e) => handleConfigChange('size', Number(e.target.value))}
+                className="w-full accent-yellow-400"
+                />
+            </div>
 
           {/* Foreground Color */}
           <div className="bg-white/90 backdrop-blur-md p-6 rounded-lg shadow-xl transform hover:scale-105 transition-transform duration-300">
