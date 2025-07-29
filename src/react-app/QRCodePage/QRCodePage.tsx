@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
 import { saveAs } from 'file-saver';
 import Header from '../components/Header';
@@ -11,7 +11,21 @@ function QRCodePage() {
     bgColor: '#FFFFFF',
     logo: null,
   });
+  const [maxSize, setMaxSize] = useState(Math.min(window.innerWidth, 500));
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // Update maxSize on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setMaxSize(Math.min(window.innerWidth, 500));
+      // Ensure current size doesn't exceed new maxSize
+      if (qrConfig.size > Math.min(window.innerWidth, 500)) {
+        setQrConfig((prev) => ({ ...prev, size: Math.min(window.innerWidth, 500) }));
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [qrConfig.size]);
 
   const handleConfigChange = (key: string, value: string | number) => {
     setQrConfig((prev) => ({ ...prev, [key]: value }));
@@ -62,7 +76,7 @@ function QRCodePage() {
             <input
               type="range"
               min="100"
-              max="500"
+              max={maxSize}
               value={qrConfig.size}
               onChange={(e) => handleConfigChange('size', Number(e.target.value))}
               className="w-full accent-yellow-400"
