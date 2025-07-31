@@ -4,7 +4,7 @@ import rickroll from './assets/rickroll.gif';
 
 function NotFoundPage() {
   const navigate = useNavigate();
-  const [countdown, setCountdown] = useState(30);
+  const [countdown, setCountdown] = useState(15);
 
   useEffect(() => {
     const timer = setInterval(() => {
