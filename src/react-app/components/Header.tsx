@@ -1,7 +1,7 @@
 
 function Header() {
   return (
-    <header className="sticky top-0 z-50 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-sm transition-all duration-300">
+    <header className="sticky top-0 z-50 bg-white/70 backdrop-blur-md shadow-sm transition-all duration-300 h-[44px] flex items-center">
     <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <svg
@@ -25,10 +25,10 @@ function Header() {
         </div>
         <nav>
         <ul className="flex space-x-6">
-            <li><a href="/" className="text-white hover:text-yellow-300 transition-colors duration-300">Home</a></li>
-            <li><a href="https://llm.ronaldding.com" className="text-white hover:text-yellow-300 transition-colors duration-300" target="_blank" rel="noopener noreferrer">LLM</a></li>
-            <li><a href="https://tv.ronaldding.com" className="text-white hover:text-yellow-300 transition-colors duration-300" target="_blank" rel="noopener noreferrer">TV</a></li>
-            <li><a href="/404" className="text-white hover:text-yellow-300 transition-colors duration-300">404</a></li>
+            <li><a href="/" className="text-black">Home</a></li>
+            <li><a href="https://llm.ronaldding.com" className="text-black" target="_blank" rel="noopener noreferrer">LLM</a></li>
+            <li><a href="https://tv.ronaldding.com" className="text-black" target="_blank" rel="noopener noreferrer">TV</a></li>
+            <li><a href="/404" className="text-black">404</a></li>
         </ul>
         </nav>
     </div>
