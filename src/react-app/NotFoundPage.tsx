@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import rickroll from './assets/rickroll.gif';
 
-function NotFoundPage () {
+function NotFoundPage() {
   const navigate = useNavigate();
   const [countdown, setCountdown] = useState(30);
 
@@ -21,7 +22,17 @@ function NotFoundPage () {
   }, [navigate]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-600 to-blue-500 flex flex-col items-center justify-center text-white p-4">
+    <div 
+      className="min-h-screen flex flex-col items-center justify-center text-white p-4"
+      style={{
+        backgroundImage: `url(${rickroll})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Fallback color for blur effect
+        backdropFilter: 'blur(10px)', // Apply blur to empty areas
+      }}
+    >
       <h1 className="text-6xl font-extrabold mb-4 animate-bounce">Oops! 404</h1>
       <p className="text-2xl mb-6 animate-pulse">Looks like you're lost in space!</p>
       <div className="relative">
@@ -50,6 +61,6 @@ function NotFoundPage () {
       </div>
     </div>
   );
-};
+}
 
 export default NotFoundPage;
