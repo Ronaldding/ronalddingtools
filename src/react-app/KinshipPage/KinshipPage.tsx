@@ -310,13 +310,6 @@ function invertPath(path: Step[], me: Gender): Step[] {
   return rev;
 }
 
-// 是否為需要「年長/年幼」的規則（函式規則）
-function needsOlderChoice(path: Step[]): boolean {
-  const key = path.join(".");
-  const rule = DICT[key];
-  return typeof rule === "function";
-}
-
 // ─────────────────────────────────────────────────────────────
 // UI（Tailwind）
 const Wrap = "w-full max-w-sm";
@@ -333,20 +326,6 @@ const BtnDark = `${BtnBase} bg-neutral-700/90 text-white border-white/10`;
 const BtnOp = `${BtnBase} bg-orange-500 text-white border-orange-600`;
 const BtnWarn = `${BtnBase} bg-yellow-400 text-black border-yellow-500 animate-pulse`;
 const BtnZero = `${BtnDark} col-span-2 justify-start pl-6`;
-
-// 鍵帽資料
-const STEP_LABELS: { code: Step; label: string }[] = [
-  { code: "f", label: "爸爸" },
-  { code: "m", label: "媽媽" },
-  { code: "h", label: "老公" },
-  { code: "w", label: "老婆" },
-  { code: "ob", label: "哥哥" },
-  { code: "os", label: "姐姐" },
-  { code: "lb", label: "弟弟" },
-  { code: "ls", label: "妹妹" },
-  { code: "s", label: "兒子" },
-  { code: "d", label: "女兒" },
-];
 
 export default function KinshipPage() {
   const [meGender, setMeGender] = useState<Gender>("male");
