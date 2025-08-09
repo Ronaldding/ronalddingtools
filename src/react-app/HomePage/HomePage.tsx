@@ -1,13 +1,10 @@
-
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
 
-
-
 function HomePage() {
   const [count, setCount] = useState(0);
-  const [name, setName] = useState('Click to fetch!');
+  const [name, setName] = useState("Click to fetch!");
   const [isLoading, setIsLoading] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -15,7 +12,7 @@ function HomePage() {
   const fetchName = async () => {
     setIsLoading(true);
     setTimeout(() => {
-      setName('Sample Data');
+      setName("Sample Data");
       setIsLoading(false);
     }, 1000);
   };
@@ -23,8 +20,8 @@ function HomePage() {
   // Update window width on resize
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
@@ -44,7 +41,7 @@ function HomePage() {
               Ronald Ding's Awesome App
             </span>
           </h1>
-          <p className="text-[clamp(1rem,2vw,1.25rem)] text-gray-200 max-w-2xl mx-auto">
+        <p className="text-[clamp(1rem,2vw,1.25rem)] text-gray-200 max-w-2xl mx-auto">
             A modern web app with fun tools and a vibrant experience!
           </p>
         </section>
@@ -64,7 +61,9 @@ function HomePage() {
                     <path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7zM4 4v5h5V4H4zM15 4v5h5V4h-5zM4 15v5h5v-5H4zM15 15v5h5v-5h-5zM6 6h1v1H6V6zM17 6h1v1h-1V6zM6 17h1v1H6v-1zM17 17h1v1h-1v-1z" />
                   </svg>
                 </div>
-                <h3 className="text-xl font-bold mb-2 text-center text-purple-900">QR Code Generator</h3>
+                <h3 className="text-xl font-bold mb-2 text-center text-purple-900">
+                  QR Code Generator
+                </h3>
                 <p className="text-gray-600 text-center">
                   Create custom QR codes for any URL or text with style!
                 </p>
@@ -83,28 +82,35 @@ function HomePage() {
                     <path d="M7 2h10a2 2 0 012 2v16a2 2 0 01-2 2H7a2 2 0 01-2-2V4a2 2 0 012-2zm0 2v16h10V4H7zm2 2h6v2H9V6zm0 3h2v2H9V9zm4 0h2v2h-2V9zm-4 3h2v2H9v-2zm4 0h2v2h-2v-2zm-4 3h2v2H9v-2zm4 0h2v2h-2v-2z" />
                   </svg>
                 </div>
-                <h3 className="text-xl font-bold mb-2 text-center text-blue-900">Calculator</h3>
+                <h3 className="text-xl font-bold mb-2 text-center text-blue-900">
+                  Calculator
+                </h3>
                 <p className="text-gray-600 text-center">
                   Perform quick calculations with an interactive tool.
                 </p>
               </div>
             </Link>
 
-            <Link to="/date-count" className="no-underline">
+            {/* ⬇️ Replaced Date Counter with Kinship Calculator */}
+            <Link to="/kinship" className="no-underline">
               <div className="bg-white/90 backdrop-blur-md rounded-xl shadow-lg p-6 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
                 <div className="flex justify-center mb-4">
                   <svg
-                    className="h-16 w-16 text-green-600"
+                    className="h-16 w-16 text-rose-600"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
                   >
-                    <path d="M7 2v2H4a2 2 0 00-2 2v14a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2h-3V2h-2v2H9V2H7zm-3 4h16v14H4V6zm2 2v10h12V8H6zm2 2h2v2H8v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm-8 4h2v2H8v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2z" />
+                    {/* people-network icon */}
+                    <path d="M7 7a3 3 0 116.001.001A3 3 0 017 7zm9-2a2 2 0 110 4 2 2 0 010-4zM4 15a3 3 0 013-3h4a3 3 0 013 3v2H4v-2zm12.5-3c1.933 0 3.5 1.567 3.5 3.5V17h-5v-1.5c0-1.104.896-2 2-2z" />
                   </svg>
                 </div>
-                <h3 className="text-xl font-bold mb-2 text-center text-green-900">Date Counter</h3>
+                <h3 className="text-xl font-bold mb-2 text-center text-rose-900">
+                  Kinship Calculator 親戚稱呼計算
+                </h3>
                 <p className="text-gray-600 text-center">
-                  Count days between dates or track special events.
+                  Work out family terms by paths like「f.ob.s」and more.
                 </p>
               </div>
             </Link>
@@ -200,7 +206,7 @@ function HomePage() {
         <section className="mt-16 text-center">
           <h2 className="text-3xl font-bold mb-6 text-white animate-bounce">Responsive Design</h2>
           <p className="text-gray-200 mb-8 max-w-2xl mx-auto">
-            This app shines on all devices! Current window width:{' '}
+            This app shines on all devices! Current window width:{" "}
             <span className="font-bold">{windowWidth}px</span>
           </p>
           <div className="flex flex-wrap justify-center gap-6">
@@ -288,7 +294,9 @@ function HomePage() {
                     d="M13 10V3L4 14h7v7l9-11h-7z"
                   />
                 </svg>
-                <span className="font-bold text-lg text-purple-900">Ronald Ding's App</span>
+                <span className="font-bold text-lg text-purple-900">
+                  Ronald Ding's App
+                </span>
               </div>
               <p className="text-sm text-gray-600 mt-2">
                 A fun and modern web experience built with React and Tailwind CSS.
@@ -351,4 +359,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;  
+export default HomePage;
