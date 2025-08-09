@@ -749,7 +749,7 @@ export default function KinshipPage() {
             <button className={BtnLight} onClick={backspace}>⌫</button>
             <button
               className={`${BtnLight} ${
-                showReverse ? "" : "bg-pink-400 text-white"
+                showReverse ? "" : "bg-orange-400 text-white"
               }`}
               onClick={() => setShowReverse((v) => !v)}
               aria-pressed={showReverse}
