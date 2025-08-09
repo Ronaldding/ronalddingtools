@@ -504,6 +504,11 @@ function normalizePath(path: Step[]): Step[] {
       continue;
     }
 
+    if ((prev === "ls" && step === "ls") || (prev === "os" && step === "os") || (prev === "ob" && step === "ob") || (prev === "lb" && step === "lb")) {
+      stack.pop();
+      continue;
+    }
+
     // 無簡化則保留當前步驟
     stack.push(step);
   }
