@@ -419,6 +419,8 @@ function normalizePath(path: Step[]): Step[] {
     if (prev === "m" && step === "h") { stack.pop(); stack.push("f"); continue; }
     if (prev === "f" && step === "w") { stack.pop(); stack.push("m"); continue; }
     if ((prev === "h" && step === "w") || (prev === "w" && step === "h")) { stack.pop(); continue; }
+    
+    if (prev === "f" && step === "ls") { stack.push("os"); continue; }
 
     // 新增：兄弟姐妹延伸路徑簡化
     if ((prev === "s" && prevPrev === "f") || (prev === "s" && prevPrev === "m")) {
