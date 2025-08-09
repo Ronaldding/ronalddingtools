@@ -506,6 +506,7 @@ function normalizePath(path: Step[]): Step[] {
 
     if ((prev === "ls" && step === "ls") || (prev === "os" && step === "os") || (prev === "ob" && step === "ob") || (prev === "lb" && step === "lb")) {
       stack.pop();
+      stack.push(step);
       continue;
     }
 
