@@ -728,9 +728,9 @@ export default function KinshipPage() {
             <div className={ScreenBig}>{showReverse ? revTerm : term}</div>
             <div className={ScreenSmall}>
               {showReverse ? (
-                <>反向路徑：{revPath.join(".") || "—"}</>
+                <>他/她叫我：{revPath.join(".") || "—"}</>
               ) : (
-                <>路徑：{path.join(".") || "—"}</>
+                <>我叫他/她：{path.join(".") || "—"}</>
               )}
             </div>
 
@@ -748,11 +748,13 @@ export default function KinshipPage() {
             <button className={BtnLight} onClick={clearAll}>AC</button>
             <button className={BtnLight} onClick={backspace}>⌫</button>
             <button
-              className={BtnLight}
+              className={`${BtnLight} ${
+                showReverse ? "" : "bg-pink-400 text-white"
+              }`}
               onClick={() => setShowReverse((v) => !v)}
               aria-pressed={showReverse}
             >
-              {showReverse ? "顯示正向" : "顯示反向"}
+              {showReverse ? "他叫我" : "我叫他"}
             </button>
 
             {/* 性別切換 */}
