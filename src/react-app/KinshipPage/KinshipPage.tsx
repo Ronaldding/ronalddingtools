@@ -52,7 +52,25 @@ const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
   "m.f.f": "外曾祖父",
   "m.f.m": "外曾祖母",
   "m.m.f": "外曾祖父",
-  "m.m.m": "外曾祖母",
+  "m.m.m": "外曾外祖母",
+
+  // 高祖（曾祖的父母）
+  "f.f.f.f": "高祖父",
+  "f.f.f.m": "高祖母",
+  "f.f.m.f": "高外祖父",
+  "f.f.m.m": "高外祖母",
+  "f.m.f.f": "高外祖父",
+  "f.m.f.m": "高外祖母",
+  "f.m.m.f": "高外祖父",
+  "f.m.m.m": "高外祖母",
+  "m.f.f.f": "外高祖父",
+  "m.f.f.m": "外高祖母",
+  "m.f.m.f": "外高外祖父",
+  "m.f.m.m": "外高外祖母",
+  "m.m.f.f": "外高祖父",
+  "m.m.f.m": "外高祖母",
+  "m.m.m.f": "外高外祖父",
+  "m.m.m.m": "外高外祖母",
 
   // ── 父系叔伯姑 + 配偶 ──
   "f.ob": "伯父",
@@ -116,6 +134,24 @@ const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
   "d.d.s": "曾外孫",
   "d.d.d": "曾外孫女",
 
+  // 玄孫（曾孫的子女）
+  "s.s.s.s": "玄孫",
+  "s.s.s.d": "玄孫女",
+  "s.s.d.s": "玄外孫",
+  "s.s.d.d": "玄外孫女",
+  "s.d.s.s": "玄外孫",
+  "s.d.s.d": "玄外孫女",
+  "s.d.d.s": "玄外孫",
+  "s.d.d.d": "玄外孫女",
+  "d.s.s.s": "玄外孫",
+  "d.s.s.d": "玄外孫女",
+  "d.s.d.s": "玄外孫",
+  "d.s.d.d": "玄外孫女",
+  "d.d.s.s": "玄外孫",
+  "d.d.s.d": "玄外孫女",
+  "d.d.d.s": "玄外孫",
+  "d.d.d.d": "玄外孫女",
+
   // ── 堂／表兄弟姊妹（依 older） ──
   // 父系堂
   "f.ob.s": (ctx) =>
@@ -159,6 +195,26 @@ const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
   "m.ob.d.h": (ctx) =>
     ctx.older === "older" ? "表姊夫" : ctx.older === "younger" ? "表妹夫" : "表姐妹之夫",
 
+  // 堂／表侄輩
+  "f.ob.s.s": "堂侄",
+  "f.ob.s.d": "堂侄女",
+  "f.lb.s.s": "堂侄",
+  "f.lb.s.d": "堂侄女",
+  "f.os.s.s": "表侄",
+  "f.os.s.d": "表侄女",
+  "m.ob.s.s": "表侄",
+  "m.ob.s.d": "表侄女",
+  "m.os.s.s": "表侄",
+  "m.os.s.d": "表侄女",
+
+  // 堂／表孫輩
+  "f.ob.s.s.s": "堂孫",
+  "f.ob.s.s.d": "堂孫女",
+  "f.os.s.s.s": "表孫",
+  "f.os.s.s.d": "表孫女",
+  "m.ob.s.s.s": "表孫",
+  "m.ob.s.s.d": "表孫女",
+
   // ── 姻親（配偶直系） ──
   "h.f": "公公",
   "h.m": "婆婆",
@@ -175,6 +231,12 @@ const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
   "w.m.f": "祖丈人",
   "w.m.m": "祖丈母",
 
+  // 配偶高祖輩
+  "h.f.f.f": "高祖父",
+  "h.f.f.m": "高祖母",
+  "w.f.f.f": "外高祖父",
+  "w.f.f.m": "外高祖母",
+
   // 配偶兄弟姊妹（依 older）
   "h.ob": (ctx) =>
     ctx.older === "older" ? "大伯子" : ctx.older === "younger" ? "小叔子" : "伯叔子",
@@ -190,14 +252,25 @@ const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
   "w.ls": "小姨子",
 
   // 配偶兄弟姊妹的配偶（常見）
-  "h.ob.w": "伯嫂/伯母",
-  "h.lb.w": "嬸嬸/叔母",
-  "h.os.h": "姑丈/姑父",
-  "h.ls.h": "姑丈/姑父",
-  "w.ob.w": "舅媽/舅母",
-  "w.lb.w": "舅媽/舅母",
-  "w.os.h": "姨丈/姨父",
-  "w.ls.h": "姨丈/姨父",
+  "h.ob.w": "伯嫂",
+  "h.lb.w": "叔母",
+  "h.os.h": "姑丈",
+  "h.ls.h": "姑丈",
+  "w.ob.w": "舅媽",
+  "w.lb.w": "舅媽",
+  "w.os.h": "姨丈",
+  "w.ls.h": "姨丈",
+
+  // 配偶的叔伯姑舅姨
+  "h.f.ob": "大伯公",
+  "h.f.lb": "小叔公",
+  "h.f.os": "大姑婆",
+  "h.m.ob": "大舅公",
+  "h.m.os": "大姨婆",
+  "w.f.ob": "大伯丈人",
+  "w.f.os": "大姑丈母",
+  "w.m.ob": "大舅丈人",
+  "w.m.os": "大姨丈母",
 
   // 兒女的配偶之父母（親家）
   "s.w.f": "親家公",
@@ -205,9 +278,13 @@ const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
   "d.h.f": "親家公",
   "d.h.m": "親家母",
 
+  // 孫輩配偶之父母
+  "s.s.w.f": "孫親家公",
+  "s.s.w.m": "孫親家母",
+  "d.s.w.f": "外孫親家公",
+  "d.s.w.m": "外孫親家母",
+
   // ── 父母的子女（需分長幼！）──
-  // * 修正點：以前固定回「兄弟/姊妹」，現在改成依 older → 哥哥/弟弟、姐姐/妹妹；
-  //   若 older 未選，給中性詞以提示（並會高亮「年長／年幼」）。
   "f.s": (ctx) =>
     ctx.older === "older" ? "哥哥" : ctx.older === "younger" ? "弟弟" : "兄弟",
   "m.s": (ctx) =>
@@ -217,11 +294,21 @@ const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
   "m.d": (ctx) =>
     ctx.older === "older" ? "姐姐" : ctx.older === "younger" ? "妹妹" : "姊妹",
 
+  // 兄弟姐妹的孫輩
+  "ob.s.s": "侄孫",
+  "ob.d.s": "侄外孫",
+  "os.s.s": "甥孫",
+  "os.d.s": "甥外孫",
+
   // ── 規範化等價鏈 ──
-  // 母親的丈夫 → 父親；父親的妻子 → 母親
   "m.h": "爸爸",
   "f.w": "媽媽",
+  "h前妻.s": "繼子",
+  "w前夫.d": "繼女",
+  "f.h": "繼父",
+  "m.w": "繼母",
 };
+
 
 // ---------- 路徑簡化（Normalization） ----------
 function normalizePath(path: Step[]): Step[] {
