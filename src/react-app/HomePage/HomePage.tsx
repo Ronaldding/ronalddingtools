@@ -48,7 +48,7 @@ function HomePage() {
 
         {/* Feature Cards */}
         <section className="mb-16">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <Link to="/qr-code" className="no-underline">
               <div className="bg-white/90 backdrop-blur-md rounded-xl shadow-lg p-6 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
                 <div className="flex justify-center mb-4">
@@ -111,6 +111,30 @@ function HomePage() {
                 </h3>
                 <p className="text-gray-600 text-center">
                   Work out family terms by paths like「f.ob.s」and more.
+                </p>
+              </div>
+            </Link>
+
+            <Link to="/racing-game" className="no-underline">
+              <div className="bg-white/90 backdrop-blur-md rounded-xl shadow-lg p-6 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+                <div className="flex justify-center mb-4">
+                  <svg
+                    className="h-16 w-16 text-green-600"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    {/* racing car icon */}
+                    <path d="M18.92 2.01c-.97 0-1.78.63-2.07 1.5l-.84 2.49H9c-.83 0-1.58.34-2.12.88-.54.54-.88 1.29-.88 2.12v11c0 .83.34 1.58.88 2.12.54.54 1.29.88 2.12.88h6c.83 0 1.58-.34 2.12-.88.54-.54.88-1.29.88-2.12V8c0-.83-.34-1.58-.88-2.12-.54-.54-1.29-.88-2.12-.88h-.99l.84-2.49c.29-.87 1.1-1.5 2.07-1.5.89 0 1.68.58 1.95 1.44l1.52 4.56H21.8c.55 0 1 .45 1 1s-.45 1-1 1h-1.81l-1.52-4.56C16.6 2.59 17.68 2.01 18.92 2.01zM7 10h10v8H7v-8z" />
+                    <circle cx="9" cy="14" r="1.5" />
+                    <circle cx="15" cy="14" r="1.5" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold mb-2 text-center text-green-900">
+                  3D Racing Game
+                </h3>
+                <p className="text-gray-600 text-center">
+                  Race in a stunning 3D environment with realistic physics!
                 </p>
               </div>
             </Link>
