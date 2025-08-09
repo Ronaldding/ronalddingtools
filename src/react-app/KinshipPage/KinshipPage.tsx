@@ -9,25 +9,24 @@ export type Step =
   | "w" // 老婆
   | "s" // 兒子
   | "d" // 女兒
-  | "ob" // 哥哥
-  | "lb" // 弟弟
-  | "os" // 姐姐
-  | "ls"; // 妹妹
+  | "ob" // 單步：哥哥
+  | "lb" // 單步：弟弟
+  | "os" // 單步：姐姐
+  | "ls"; // 單步：妹妹
 
 type Gender = "male" | "female";
 type OlderYounger = "older" | "younger" | "unknown";
 
 interface RenderCtx {
   me: Gender;
-  target: Gender | "unknown"; // 使用者可手動指定；若路徑末端明確性別（如 s/d/ob/...），會自動覆寫
-  older: OlderYounger;        // 僅在需大小排行時使用
+  target: Gender | "unknown";
+  older: OlderYounger;
 }
 
 // ─────────────────────────────────────────────────────────────
 // 規則表（擴充；受限於現有 step 字母）
-// ＊若回傳函式：可能依 older（堂/表）或 target（性別）決定稱謂
 const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
-  // ── 單步 ──
+  // ── 單步（末端已定性別） ──
   f: "爸爸",
   m: "媽媽",
   h: "老公",
@@ -45,7 +44,7 @@ const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
   "m.f": "外公",
   "m.m": "外婆",
 
-  // 曾祖（能映射的基本線）
+  // 曾祖
   "f.f.f": "曾祖父",
   "f.f.m": "曾祖母",
   "f.m.f": "曾外祖父",
@@ -79,7 +78,7 @@ const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
   "s.w": "媳婦",
   "d.h": "女婿",
 
-  // ── 侄／外甥 + 配偶（兄弟之子女為侄；姊妹之子女為外甥） ──
+  // ── 侄／外甥 + 配偶 ──
   "ob.s": "侄子",
   "ob.d": "侄女",
   "lb.s": "侄子",
@@ -107,7 +106,7 @@ const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
   "d.s.w": "外孫媳婦",
   "d.d.h": "外孫女婿",
 
-  // 曾孫（常用）
+  // 曾孫
   "s.s.s": "曾孫",
   "s.s.d": "曾孫女",
   "s.d.s": "曾外孫",
@@ -117,7 +116,7 @@ const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
   "d.d.s": "曾外孫",
   "d.d.d": "曾外孫女",
 
-  // ── 堂／表兄弟姊妹（依 older 決定） ──
+  // ── 堂／表兄弟姊妹（依 older） ──
   // 父系堂
   "f.ob.s": (ctx) =>
     ctx.older === "older" ? "堂哥" : ctx.older === "younger" ? "堂弟" : "堂兄弟",
@@ -176,7 +175,7 @@ const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
   "w.m.f": "祖丈人",
   "w.m.m": "祖丈母",
 
-  // 配偶的兄弟姊妹（older 判大/小）
+  // 配偶兄弟姊妹（依 older）
   "h.ob": (ctx) =>
     ctx.older === "older" ? "大伯子" : ctx.older === "younger" ? "小叔子" : "伯叔子",
   "h.lb": "小叔子",
@@ -190,7 +189,7 @@ const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
     ctx.older === "older" ? "大姨子" : ctx.older === "younger" ? "小姨子" : "姨子",
   "w.ls": "小姨子",
 
-  // 配偶兄弟姊妹的配偶
+  // 配偶兄弟姊妹的配偶（常見）
   "h.ob.w": "伯嫂/伯母",
   "h.lb.w": "嬸嬸/叔母",
   "h.os.h": "姑丈/姑父",
@@ -206,24 +205,25 @@ const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
   "d.h.f": "親家公",
   "d.h.m": "親家母",
 
-  // ── 父母的子女（此組合「不需 older」，但需性別；且 s/d 已明確性別） ──
-  // 要求：f.s 一律「兄弟」（因 s = male）, f.d 一律「姊妹」（d = female）
-  "f.s": "兄弟",
-  "f.d": "姊妹",
-  "m.s": "兄弟",
-  "m.d": "姊妹",
+  // ── 父母的子女（需分長幼！）──
+  // * 修正點：以前固定回「兄弟/姊妹」，現在改成依 older → 哥哥/弟弟、姐姐/妹妹；
+  //   若 older 未選，給中性詞以提示（並會高亮「年長／年幼」）。
+  "f.s": (ctx) =>
+    ctx.older === "older" ? "哥哥" : ctx.older === "younger" ? "弟弟" : "兄弟",
+  "m.s": (ctx) =>
+    ctx.older === "older" ? "哥哥" : ctx.older === "younger" ? "弟弟" : "兄弟",
+  "f.d": (ctx) =>
+    ctx.older === "older" ? "姐姐" : ctx.older === "younger" ? "妹妹" : "姊妹",
+  "m.d": (ctx) =>
+    ctx.older === "older" ? "姐姐" : ctx.older === "younger" ? "妹妹" : "姊妹",
 
-  // ── 補一些列表中的常見敬稱（用於對外稱呼時可作參考；主稱呼仍用一般/口語） ──
-  // 「父親／母親」等主位稱（在此頁作映射：自己→父母）
-  // 若要切換「令尊/令堂/家父/家母」等對外語境，建議未來加一個「語境」選擇器
+  // ── 規範化等價鏈 ──
+  // 母親的丈夫 → 父親；父親的妻子 → 母親
+  "m.h": "爸爸",
+  "f.w": "媽媽",
 };
 
 // ---------- 路徑簡化（Normalization） ----------
-// 規則：
-// 1) m + h => f（母親的丈夫 = 父親）
-// 2) f + w => m（父親的妻子 = 母親）
-// 3) h + w、w + h => 互相抵銷（配偶的配偶 = 自己）
-// 4) 類似鏈也會逐步簡化（如 w.m.h => w.f）
 function normalizePath(path: Step[]): Step[] {
   const stack: Step[] = [];
   for (const step of path) {
@@ -241,7 +241,7 @@ function normalizePath(path: Step[]): Step[] {
       stack.push("m");
       continue;
     }
-    // 配偶互相抵銷
+    // 配偶互相抵銷（h + w / w + h）
     if ((prev === "h" && step === "w") || (prev === "w" && step === "h")) {
       stack.pop();
       continue;
@@ -280,79 +280,33 @@ function renderTerm(path: Step[], ctx: RenderCtx): string {
   return typeof rule === "function" ? (rule as any)(ctx) : rule;
 }
 
-function forwardGenders(path: Step[], me: Gender): Gender[] {
-  const genders: Gender[] = [me];
-  for (const step of path) {
-    let next: Gender = "male";
-    switch (step) {
-      case "f":
-      case "h":
-      case "s":
-      case "ob":
-      case "lb":
-        next = "male";
-        break;
-      case "m":
-      case "w":
-      case "d":
-      case "os":
-      case "ls":
-        next = "female";
-        break;
-    }
-    genders.push(next);
-  }
-  return genders;
+// 檢測規則是否真的「依賴 older」：比較 older=older 與 older=younger 的輸出是否不同
+function ruleUsesOlder(key: string): boolean {
+  const rule = DICT[key];
+  if (typeof rule !== "function") return false;
+  const baseCtx: RenderCtx = { me: "male", target: "male", older: "older" };
+  const a = (rule as any)({ ...baseCtx, older: "older" });
+  const b = (rule as any)({ ...baseCtx, older: "younger" });
+  return a !== b;
 }
 
-function invertStep(step: Step, otherGender: Gender): Step {
-  switch (step) {
-    case "f":
-    case "m":
-      return otherGender === "male" ? "s" : "d";
-    case "s":
-    case "d":
-      return otherGender === "male" ? "f" : "m";
-    case "h":
-      return "w";
-    case "w":
-      return "h";
-    case "ob":
-      return otherGender === "male" ? "lb" : "ls";
-    case "lb":
-      return otherGender === "male" ? "ob" : "os";
-    case "os":
-      return otherGender === "male" ? "lb" : "ls";
-    case "ls":
-      return otherGender === "male" ? "ob" : "os";
-  }
-}
-
-function invertPath(path: Step[], me: Gender): Step[] {
-  const genders = forwardGenders(path, me);
-  const rev: Step[] = [];
-  for (let i = path.length - 1; i >= 0; i--) {
-    rev.push(invertStep(path[i], genders[i]));
-  }
-  return rev;
-}
-
-// 該路徑是否需要 older（由「函式規則」且依 older 分支者）
+// 該路徑是否需要 older
 function needsOlderChoice(path: Step[]): boolean {
-  const rule = DICT[path.join(".")];
-  return typeof rule === "function" && /堂|表/.test(String(rule({ me: "male", target: "male", older: "older" })));
+  if (!path.length) return false;
+  return ruleUsesOlder(path.join("."));
 }
 
-// 該路徑是否需要 target 性別（函式規則但不依 older；或末端性別不可推斷）
+// 該路徑是否需要 target 性別（末端不可推斷且規則非依 older 的函式）
 function needsTargetGenderChoice(path: Step[], currentTarget: Gender | "unknown"): boolean {
+  if (!path.length) return false;
   const last = path[path.length - 1];
   const inferred = terminalGenderFromStep(last);
-  if (inferred) return false; // 已由路徑末端決定（如 s/d/ob/os/lb/ls）
+  if (inferred) return false;
   const rule = DICT[path.join(".")];
-  const isFunc = typeof rule === "function";
-  // 估計：若不是堂表分支，且會用到 target，那就需要選擇性別
-  const mightUseTarget = isFunc && !/堂|表/.test(String(rule({ me: "male", target: "male", older: "older" })));
-  return mightUseTarget && currentTarget === "unknown";
+  if (typeof rule !== "function") return false;
+  // 若非依 older（已由上面處理），則當 target 未指定時提示
+  if (!ruleUsesOlder(path.join(".")) && currentTarget === "unknown") return true;
+  return false;
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -391,7 +345,7 @@ export default function KinshipPage() {
   const revPath = invertPath(path, meGender);
   const revTerm = renderTerm(revPath, {
     me: forwardGenders(path, meGender).slice(-1)[0] as Gender,
-    target: meGender, // 反查我方
+    target: meGender,
     older: flipOlder(older),
   });
 
@@ -407,6 +361,63 @@ export default function KinshipPage() {
     if (v === "older") return "younger";
     if (v === "younger") return "older";
     return "unknown";
+  }
+
+  function forwardGenders(path: Step[], me: Gender): Gender[] {
+    const genders: Gender[] = [me];
+    for (const step of path) {
+      let next: Gender = "male";
+      switch (step) {
+        case "f":
+        case "h":
+        case "s":
+        case "ob":
+        case "lb":
+          next = "male";
+          break;
+        case "m":
+        case "w":
+        case "d":
+        case "os":
+        case "ls":
+          next = "female";
+          break;
+      }
+      genders.push(next);
+    }
+    return genders;
+  }
+
+  function invertStep(step: Step, otherGender: Gender): Step {
+    switch (step) {
+      case "f":
+      case "m":
+        return otherGender === "male" ? "s" : "d";
+      case "s":
+      case "d":
+        return otherGender === "male" ? "f" : "m";
+      case "h":
+        return "w";
+      case "w":
+        return "h";
+      case "ob":
+        return otherGender === "male" ? "lb" : "ls";
+      case "lb":
+        return otherGender === "male" ? "ob" : "os";
+      case "os":
+        return otherGender === "male" ? "lb" : "ls";
+      case "ls":
+        return otherGender === "male" ? "ob" : "os";
+    }
+  }
+
+  function invertPath(path: Step[], me: Gender): Step[] {
+    const genders = forwardGenders(path, me);
+    const rev: Step[] = [];
+    for (let i = path.length - 1; i >= 0; i--) {
+      rev.push(invertStep(path[i], genders[i]));
+    }
+    return rev;
   }
 
   function tapStep(step: Step) {
@@ -538,7 +549,7 @@ export default function KinshipPage() {
             </button>
             <button
               className={`${BtnBase} ${
-                effectiveTarget === "male" || (needTarget && targetGender === "male")
+                (effectiveTarget === "male" || (needTarget && targetGender === "male"))
                   ? "bg-blue-500 text-white border-blue-600"
                   : "bg-neutral-200 text-black border-white/10"
               } ${needTarget && targetGender === "unknown" ? "animate-pulse" : ""}`}
@@ -550,7 +561,7 @@ export default function KinshipPage() {
             </button>
             <button
               className={`${BtnBase} ${
-                effectiveTarget === "female" || (needTarget && targetGender === "female")
+                (effectiveTarget === "female" || (needTarget && targetGender === "female"))
                   ? "bg-pink-400 text-white border-pink-500"
                   : "bg-neutral-200 text-black border-white/10"
               } ${needTarget && targetGender === "unknown" ? "animate-pulse" : ""}`}
@@ -564,7 +575,7 @@ export default function KinshipPage() {
 
           {/* 小提示區 */}
           <p className="text-center text-xs text-white/70 mt-4">
-            提示：未覆蓋的路徑會顯示 <code className="text-white/90">未定義(…)</code>。若需更進階（如「從父/從母」分支等），可擴充 Step 字母與規則。
+            提示：未覆蓋的路徑會顯示 <code className="text-white/90">未定義(…)</code>。如需更多古禮用語或「從父/從母」等分支，可擴充 Step 與規則。
           </p>
         </main>
       </div>
