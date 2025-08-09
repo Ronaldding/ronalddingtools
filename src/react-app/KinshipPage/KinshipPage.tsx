@@ -76,15 +76,21 @@ const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
   "f.ob": "伯父",
   "f.lb": "叔叔",
   "f.os": "姑姑",
+  "f.ls": "姑姑", // 新增：父親的妹妹（與姐姐同稱謂）
   "f.ob.w": "伯母",
   "f.lb.w": "嬸嬸",
   "f.os.h": "姑丈",
+  "f.ls.h": "姑丈", // 新增：父親妹妹的丈夫（與姐姐丈夫同稱謂）
 
   // ── 母系舅姨 + 配偶 ──
   "m.ob": "舅舅",
+  "m.lb": "舅舅", // 新增：母親的弟弟（與哥哥同稱謂）
   "m.os": "阿姨",
+  "m.ls": "阿姨", // 新增：母親的妹妹（與姐姐同稱謂）
   "m.ob.w": "舅媽",
+  "m.lb.w": "舅媽", // 新增：母親弟弟的妻子（與哥哥妻子同稱謂）
   "m.os.h": "姨丈",
+  "m.ls.h": "姨丈", // 新增：母親妹妹的丈夫（與姐姐丈夫同稱謂）
 
   // ── 兄姊 + 配偶 ──
   "ob.w": "嫂嫂",
@@ -168,13 +174,25 @@ const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
     ctx.older === "older" ? "表哥" : ctx.older === "younger" ? "表弟" : "表兄弟",
   "f.os.d": (ctx) =>
     ctx.older === "older" ? "表姐" : ctx.older === "younger" ? "表妹" : "表姐妹",
+  "f.ls.s": (ctx) => // 新增：父親妹妹的兒子（與姐姐兒子同稱謂）
+    ctx.older === "older" ? "表哥" : ctx.older === "younger" ? "表弟" : "表兄弟",
+  "f.ls.d": (ctx) => // 新增：父親妹妹的女兒（與姐姐女兒同稱謂）
+    ctx.older === "older" ? "表姐" : ctx.older === "younger" ? "表妹" : "表姐妹",
   "m.ob.s": (ctx) =>
     ctx.older === "older" ? "表哥" : ctx.older === "younger" ? "表弟" : "表兄弟",
   "m.ob.d": (ctx) =>
     ctx.older === "older" ? "表姐" : ctx.older === "younger" ? "表妹" : "表姐妹",
+  "m.lb.s": (ctx) => // 新增：母親弟弟的兒子（與哥哥兒子同稱謂）
+    ctx.older === "older" ? "表哥" : ctx.older === "younger" ? "表弟" : "表兄弟",
+  "m.lb.d": (ctx) => // 新增：母親弟弟的女兒（與哥哥女兒同稱謂）
+    ctx.older === "older" ? "表姐" : ctx.older === "younger" ? "表妹" : "表姐妹",
   "m.os.s": (ctx) =>
     ctx.older === "older" ? "表哥" : ctx.older === "younger" ? "表弟" : "表兄弟",
   "m.os.d": (ctx) =>
+    ctx.older === "older" ? "表姐" : ctx.older === "younger" ? "表妹" : "表姐妹",
+  "m.ls.s": (ctx) => // 新增：母親妹妹的兒子（與姐姐兒子同稱謂）
+    ctx.older === "older" ? "表哥" : ctx.older === "younger" ? "表弟" : "表兄弟",
+  "m.ls.d": (ctx) => // 新增：母親妹妹的女兒（與姐姐女兒同稱謂）
     ctx.older === "older" ? "表姐" : ctx.older === "younger" ? "表妹" : "表姐妹",
 
   // 堂／表配偶
@@ -188,11 +206,23 @@ const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
     ctx.older === "older" ? "堂姊夫" : ctx.older === "younger" ? "堂妹夫" : "堂姐妹之夫",
   "f.os.s.w": (ctx) =>
     ctx.older === "older" ? "表嫂" : ctx.older === "younger" ? "表弟妹" : "表兄弟之妻",
+  "f.ls.s.w": (ctx) => // 新增：父親妹妹兒子的妻子（與姐姐兒子妻子同稱謂）
+    ctx.older === "older" ? "表嫂" : ctx.older === "younger" ? "表弟妹" : "表兄弟之妻",
   "m.ob.s.w": (ctx) =>
+    ctx.older === "older" ? "表嫂" : ctx.older === "younger" ? "表弟妹" : "表兄弟之妻",
+  "m.lb.s.w": (ctx) => // 新增：母親弟弟兒子的妻子（與哥哥兒子妻子同稱謂）
     ctx.older === "older" ? "表嫂" : ctx.older === "younger" ? "表弟妹" : "表兄弟之妻",
   "f.os.d.h": (ctx) =>
     ctx.older === "older" ? "表姊夫" : ctx.older === "younger" ? "表妹夫" : "表姐妹之夫",
+  "f.ls.d.h": (ctx) => // 新增：父親妹妹女兒的丈夫（與姐姐女兒丈夫同稱謂）
+    ctx.older === "older" ? "表姊夫" : ctx.older === "younger" ? "表妹夫" : "表姐妹之夫",
   "m.ob.d.h": (ctx) =>
+    ctx.older === "older" ? "表姊夫" : ctx.older === "younger" ? "表妹夫" : "表姐妹之夫",
+  "m.lb.d.h": (ctx) => // 新增：母親弟弟女兒的丈夫（與哥哥女兒丈夫同稱謂）
+    ctx.older === "older" ? "表姊夫" : ctx.older === "younger" ? "表妹夫" : "表姐妹之夫",
+  "m.os.d.h": (ctx) => // 新增：母親姐姐女兒的丈夫（原缺失）
+    ctx.older === "older" ? "表姊夫" : ctx.older === "younger" ? "表妹夫" : "表姐妹之夫",
+  "m.ls.d.h": (ctx) => // 新增：母親妹妹女兒的丈夫（與姐姐女兒丈夫同稱謂）
     ctx.older === "older" ? "表姊夫" : ctx.older === "younger" ? "表妹夫" : "表姐妹之夫",
 
   // 堂／表侄輩
@@ -202,18 +232,28 @@ const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
   "f.lb.s.d": "堂侄女",
   "f.os.s.s": "表侄",
   "f.os.s.d": "表侄女",
+  "f.ls.s.s": "表侄", // 新增：父親妹妹兒子的兒子
+  "f.ls.s.d": "表侄女", // 新增：父親妹妹兒子的女兒
   "m.ob.s.s": "表侄",
   "m.ob.s.d": "表侄女",
+  "m.lb.s.s": "表侄", // 新增：母親弟弟兒子的兒子
+  "m.lb.s.d": "表侄女", // 新增：母親弟弟兒子的女兒
   "m.os.s.s": "表侄",
   "m.os.s.d": "表侄女",
+  "m.ls.s.s": "表侄", // 新增：母親妹妹兒子的兒子
+  "m.ls.s.d": "表侄女", // 新增：母親妹妹兒子的女兒
 
   // 堂／表孫輩
   "f.ob.s.s.s": "堂孫",
   "f.ob.s.s.d": "堂孫女",
   "f.os.s.s.s": "表孫",
   "f.os.s.s.d": "表孫女",
+  "f.ls.s.s.s": "表孫", // 新增：父親妹妹兒子的孫子
+  "f.ls.s.s.d": "表孫女", // 新增：父親妹妹兒子的孫女
   "m.ob.s.s.s": "表孫",
   "m.ob.s.s.d": "表孫女",
+  "m.lb.s.s.s": "表孫", // 新增：母親弟弟兒子的孫子
+  "m.lb.s.s.d": "表孫女", // 新增：母親弟弟兒子的孫女
 
   // ── 姻親（配偶直系） ──
   "h.f": "公公",
@@ -265,12 +305,19 @@ const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
   "h.f.ob": "大伯公",
   "h.f.lb": "小叔公",
   "h.f.os": "大姑婆",
+  "h.f.ls": "小姑婆", // 新增：丈夫父親的妹妹
   "h.m.ob": "大舅公",
+  "h.m.lb": "小舅公", // 新增：丈夫母親的弟弟
   "h.m.os": "大姨婆",
+  "h.m.ls": "小姨婆", // 新增：丈夫母親的妹妹
   "w.f.ob": "大伯丈人",
+  "w.f.lb": "小叔丈人", // 新增：妻子父親的弟弟
   "w.f.os": "大姑丈母",
+  "w.f.ls": "小姑丈母", // 新增：妻子父親的妹妹
   "w.m.ob": "大舅丈人",
+  "w.m.lb": "小舅丈人", // 新增：妻子母親的弟弟
   "w.m.os": "大姨丈母",
+  "w.m.ls": "小姨丈母", // 新增：妻子母親的妹妹
 
   // 兒女的配偶之父母（親家）
   "s.w.f": "親家公",
@@ -297,8 +344,12 @@ const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
   // 兄弟姐妹的孫輩
   "ob.s.s": "侄孫",
   "ob.d.s": "侄外孫",
+  "lb.s.s": "侄孫", // 新增：弟弟兒子的兒子
+  "lb.d.s": "侄外孫", // 新增：弟弟女兒的兒子
   "os.s.s": "甥孫",
   "os.d.s": "甥外孫",
+  "ls.s.s": "甥孫", // 新增：妹妹兒子的兒子
+  "ls.d.s": "甥外孫", // 新增：妹妹女兒的兒子
 
   // ── 規範化等價鏈 ──
   "m.h": "爸爸",
@@ -412,32 +463,48 @@ function useDebounce(callback: (...args: any[]) => void, delay: number) {
 function normalizePath(path: Step[]): Step[] {
   const stack: Step[] = [];
   for (const step of path) {
-    const prev = stack[stack.length - 1];
-    const prevPrev = stack.length >= 2 ? stack[stack.length - 2] : null;
+    const prev = stack[stack.length - 1]; // 上一步驟
+    const prevPrev = stack.length >= 2 ? stack[stack.length - 2] : null; // 上上个步驟
 
-    // 已有的基礎簡化
-    if (prev === "m" && step === "h") { stack.pop(); stack.push("f"); continue; }
-    if (prev === "f" && step === "w") { stack.pop(); stack.push("m"); continue; }
-    if ((prev === "h" && step === "w") || (prev === "w" && step === "h")) { stack.pop(); continue; }
-    
-    if (prev === "f" && step === "ls") { stack.push("os"); continue; }
-
-    // 新增：兄弟姐妹延伸路徑簡化
-    if ((prev === "s" && prevPrev === "f") || (prev === "s" && prevPrev === "m")) {
-      if (step === "ob" || step === "lb") {
-        stack.pop(); stack.pop(); // 移除 "f.s" 或 "m.s"
-        stack.push(step); // 直接保留 "ob" 或 "lb"
-        continue;
-      }
+    // 1. 基礎等價關係簡化
+    // 母親的丈夫 → 父親；父親的妻子 → 母親
+    if (prev === "m" && step === "h") {
+      stack.pop();
+      stack.push("f");
+      continue;
     }
-    if ((prev === "d" && prevPrev === "f") || (prev === "d" && prevPrev === "m")) {
-      if (step === "os" || step === "ls") {
-        stack.pop(); stack.pop(); // 移除 "f.d" 或 "m.d"
-        stack.push(step); // 直接保留 "os" 或 "ls"
-        continue;
-      }
+    if (prev === "f" && step === "w") {
+      stack.pop();
+      stack.push("m");
+      continue;
+    }
+    // 配偶互消（丈夫的妻子/妻子的丈夫 = 自己）
+    if ((prev === "h" && step === "w") || (prev === "w" && step === "h")) {
+      stack.pop();
+      continue;
     }
 
+    // 2. 父母子女的兄弟姐妹 → 自己的兄弟姐妹（通用化）
+    // 例：f.s.ob → ob（父親的兒子的哥哥 = 自己的哥哥）；m.d.lb → lb（母親的女兒的弟弟 = 自己的弟弟）
+    if (
+      (prevPrev === "f" || prevPrev === "m") && // 前兩步是父母
+      (prev === "s" || prev === "d") && // 前一步是子女（即自己的兄弟姐妹）
+      ["ob", "lb", "os", "ls"].includes(step) // 當前步是兄弟姐妹的長幼關係
+    ) {
+      stack.pop(); // 移除「子女」步驟（s/d）
+      stack.pop(); // 移除「父母」步驟（f/m）
+      stack.push(step); // 保留長幼關係（ob/lb/os/ls）
+      continue;
+    }
+
+    // 3. 子女的父母 → 自己的親屬（取消多餘的「子女」步驟）
+    // 例：ob.s.f → ob（哥哥的兒子的父親 = 哥哥）；os.d.m → os（姐姐的女兒的母親 = 姐姐）
+    if ((prev === "s" && step === "f") || (prev === "d" && step === "m")) {
+      stack.pop(); // 移除「子女」步驟（s/d）
+      continue;
+    }
+
+    // 無簡化則保留當前步驟
     stack.push(step);
   }
   return stack;
