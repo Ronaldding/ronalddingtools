@@ -19,14 +19,15 @@ type OlderYounger = "older" | "younger" | "unknown";
 
 interface RenderCtx {
   me: Gender;
-  target: Gender | "unknown";
-  older: OlderYounger;
+  target: Gender | "unknown"; // 使用者可手動指定；若路徑末端明確性別（如 s/d/ob/...），會自動覆寫
+  older: OlderYounger;        // 僅在需大小排行時使用
 }
 
 // ─────────────────────────────────────────────────────────────
-// 規則表（擴充）
+// 規則表（擴充；受限於現有 step 字母）
+// ＊若回傳函式：可能依 older（堂/表）或 target（性別）決定稱謂
 const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
-  // 單步
+  // ── 單步 ──
   f: "爸爸",
   m: "媽媽",
   h: "老公",
@@ -38,13 +39,13 @@ const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
   os: "姐姐",
   ls: "妹妹",
 
-  // 祖父母 / 外祖父母
+  // ── 直系 ──
   "f.f": "爺爺",
   "f.m": "奶奶",
   "m.f": "外公",
   "m.m": "外婆",
 
-  // 曾祖（常見）
+  // 曾祖（能映射的基本線）
   "f.f.f": "曾祖父",
   "f.f.m": "曾祖母",
   "f.m.f": "曾外祖父",
@@ -54,7 +55,7 @@ const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
   "m.m.f": "外曾祖父",
   "m.m.m": "外曾祖母",
 
-  // 父系叔伯姑 + 配偶
+  // ── 父系叔伯姑 + 配偶 ──
   "f.ob": "伯父",
   "f.lb": "叔叔",
   "f.os": "姑姑",
@@ -62,23 +63,23 @@ const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
   "f.lb.w": "嬸嬸",
   "f.os.h": "姑丈",
 
-  // 母系舅姨 + 配偶
+  // ── 母系舅姨 + 配偶 ──
   "m.ob": "舅舅",
   "m.os": "阿姨",
   "m.ob.w": "舅媽",
   "m.os.h": "姨丈",
 
-  // 兄姊 + 配偶
+  // ── 兄姊 + 配偶 ──
   "ob.w": "嫂嫂",
   "lb.w": "弟妹",
   "os.h": "姐夫",
   "ls.h": "妹夫",
 
-  // 子女 + 配偶
+  // ── 子女 + 配偶 ──
   "s.w": "媳婦",
   "d.h": "女婿",
 
-  // 侄／外甥 + 配偶
+  // ── 侄／外甥 + 配偶（兄弟之子女為侄；姊妹之子女為外甥） ──
   "ob.s": "侄子",
   "ob.d": "侄女",
   "lb.s": "侄子",
@@ -96,7 +97,7 @@ const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
   "ls.s.w": "外甥媳婦",
   "ls.d.h": "外甥女婿",
 
-  // 孫／外孫 + 配偶
+  // ── 孫／外孫 + 配偶 ──
   "s.s": "孫子",
   "s.d": "孫女",
   "d.s": "外孫",
@@ -116,7 +117,8 @@ const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
   "d.d.s": "曾外孫",
   "d.d.d": "曾外孫女",
 
-  // 堂／表兄弟姊妹（用 older 判斷）
+  // ── 堂／表兄弟姊妹（依 older 決定） ──
+  // 父系堂
   "f.ob.s": (ctx) =>
     ctx.older === "older" ? "堂哥" : ctx.older === "younger" ? "堂弟" : "堂兄弟",
   "f.ob.d": (ctx) =>
@@ -126,6 +128,7 @@ const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
   "f.lb.d": (ctx) =>
     ctx.older === "older" ? "堂姐" : ctx.older === "younger" ? "堂妹" : "堂姐妹",
 
+  // 表（父姑、母舅、母姨）
   "f.os.s": (ctx) =>
     ctx.older === "older" ? "表哥" : ctx.older === "younger" ? "表弟" : "表兄弟",
   "f.os.d": (ctx) =>
@@ -156,18 +159,14 @@ const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
     ctx.older === "older" ? "表姊夫" : ctx.older === "younger" ? "表妹夫" : "表姐妹之夫",
   "m.ob.d.h": (ctx) =>
     ctx.older === "older" ? "表姊夫" : ctx.older === "younger" ? "表妹夫" : "表姐妹之夫",
-  "m.os.s.w": (ctx) =>
-    ctx.older === "older" ? "表嫂" : ctx.older === "younger" ? "表弟妹" : "表兄弟之妻",
-  "m.os.d.h": (ctx) =>
-    ctx.older === "older" ? "表姊夫" : ctx.older === "younger" ? "表妹夫" : "表姐妹之夫",
 
-  // 姻親（配偶的直系）
+  // ── 姻親（配偶直系） ──
   "h.f": "公公",
   "h.m": "婆婆",
   "w.f": "岳父",
   "w.m": "岳母",
 
-  // 配偶的祖父母（常見）
+  // 配偶祖父母（常見）
   "h.f.f": "祖公",
   "h.f.m": "祖婆",
   "h.m.f": "祖公",
@@ -184,7 +183,6 @@ const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
   "h.os": (ctx) =>
     ctx.older === "older" ? "大姑子" : ctx.older === "younger" ? "小姑子" : "姑子",
   "h.ls": "小姑子",
-
   "w.ob": (ctx) =>
     ctx.older === "older" ? "大舅子" : ctx.older === "younger" ? "小舅子" : "舅子",
   "w.lb": "小舅子",
@@ -202,55 +200,84 @@ const DICT: Record<string, string | ((ctx: RenderCtx) => string)> = {
   "w.os.h": "姨丈/姨父",
   "w.ls.h": "姨丈/姨父",
 
-  // 親家
+  // 兒女的配偶之父母（親家）
   "s.w.f": "親家公",
   "s.w.m": "親家母",
   "d.h.f": "親家公",
   "d.h.m": "親家母",
 
-  // 其他直稱（簡化）
-  "f.s": (ctx) => (ctx.target === "male" ? "兄弟" : "姊妹"),
-  "f.d": (ctx) => (ctx.target === "male" ? "兄弟" : "姊妹"),
-  "m.s": (ctx) => (ctx.target === "male" ? "兄弟" : "姊妹"),
-  "m.d": (ctx) => (ctx.target === "male" ? "兄弟" : "姊妹"),
+  // ── 父母的子女（此組合「不需 older」，但需性別；且 s/d 已明確性別） ──
+  // 要求：f.s 一律「兄弟」（因 s = male）, f.d 一律「姊妹」（d = female）
+  "f.s": "兄弟",
+  "f.d": "姊妹",
+  "m.s": "兄弟",
+  "m.d": "姊妹",
+
+  // ── 補一些列表中的常見敬稱（用於對外稱呼時可作參考；主稱呼仍用一般/口語） ──
+  // 「父親／母親」等主位稱（在此頁作映射：自己→父母）
+  // 若要切換「令尊/令堂/家父/家母」等對外語境，建議未來加一個「語境」選擇器
 };
 
 // ---------- 路徑簡化（Normalization） ----------
 // 規則：
 // 1) m + h => f（母親的丈夫 = 父親）
 // 2) f + w => m（父親的妻子 = 母親）
-// 3) h + w => ε、w + h => ε（配偶互相抵銷）
+// 3) h + w、w + h => 互相抵銷（配偶的配偶 = 自己）
+// 4) 類似鏈也會逐步簡化（如 w.m.h => w.f）
 function normalizePath(path: Step[]): Step[] {
   const stack: Step[] = [];
   for (const step of path) {
     const prev = stack[stack.length - 1];
 
+    // 母親的丈夫 → 父親
     if (prev === "m" && step === "h") {
       stack.pop();
       stack.push("f");
       continue;
     }
+    // 父親的妻子 → 母親
     if (prev === "f" && step === "w") {
       stack.pop();
       stack.push("m");
       continue;
     }
+    // 配偶互相抵銷
     if ((prev === "h" && step === "w") || (prev === "w" && step === "h")) {
       stack.pop();
-      continue; // both removed
+      continue;
     }
     stack.push(step);
   }
   return stack;
 }
 
+// ---------- 推斷路徑末端性別（若有） ----------
+function terminalGenderFromStep(s?: Step): Gender | undefined {
+  switch (s) {
+    case "f":
+    case "h":
+    case "s":
+    case "ob":
+    case "lb":
+      return "male";
+    case "m":
+    case "w":
+    case "d":
+    case "os":
+    case "ls":
+      return "female";
+    default:
+      return undefined;
+  }
+}
+
 // ---------- 核心運算 ----------
 function renderTerm(path: Step[], ctx: RenderCtx): string {
   const key = path.join(".");
   const rule = DICT[key];
-  if (rule) return typeof rule === "function" ? (rule as any)(ctx) : rule;
   if (path.length === 0) return "—";
-  return `未定義(${key})`;
+  if (!rule) return `未定義(${key})`;
+  return typeof rule === "function" ? (rule as any)(ctx) : rule;
 }
 
 function forwardGenders(path: Step[], me: Gender): Gender[] {
@@ -310,6 +337,24 @@ function invertPath(path: Step[], me: Gender): Step[] {
   return rev;
 }
 
+// 該路徑是否需要 older（由「函式規則」且依 older 分支者）
+function needsOlderChoice(path: Step[]): boolean {
+  const rule = DICT[path.join(".")];
+  return typeof rule === "function" && /堂|表/.test(String(rule({ me: "male", target: "male", older: "older" })));
+}
+
+// 該路徑是否需要 target 性別（函式規則但不依 older；或末端性別不可推斷）
+function needsTargetGenderChoice(path: Step[], currentTarget: Gender | "unknown"): boolean {
+  const last = path[path.length - 1];
+  const inferred = terminalGenderFromStep(last);
+  if (inferred) return false; // 已由路徑末端決定（如 s/d/ob/os/lb/ls）
+  const rule = DICT[path.join(".")];
+  const isFunc = typeof rule === "function";
+  // 估計：若不是堂表分支，且會用到 target，那就需要選擇性別
+  const mightUseTarget = isFunc && !/堂|表/.test(String(rule({ me: "male", target: "male", older: "older" })));
+  return mightUseTarget && currentTarget === "unknown";
+}
+
 // ─────────────────────────────────────────────────────────────
 // UI（Tailwind）
 const Wrap = "w-full max-w-sm";
@@ -334,19 +379,25 @@ export default function KinshipPage() {
   const [rawPath, setRawPath] = useState<Step[]>([]);
   const [showReverse, setShowReverse] = useState(false);
 
-  // normalize path
+  // 規範化路徑
   const path = useMemo(() => normalizePath(rawPath), [rawPath]);
 
-  const term = renderTerm(path, { me: meGender, target: targetGender, older });
+  // 若末端步驟已隱含性別，覆蓋 target
+  const inferredTarget = terminalGenderFromStep(path[path.length - 1]);
+  const effectiveTarget: Gender | "unknown" = inferredTarget ?? targetGender;
+
+  // 顯示稱謂
+  const term = renderTerm(path, { me: meGender, target: effectiveTarget, older });
   const revPath = invertPath(path, meGender);
   const revTerm = renderTerm(revPath, {
     me: forwardGenders(path, meGender).slice(-1)[0] as Gender,
-    target: meGender,
+    target: meGender, // 反查我方
     older: flipOlder(older),
   });
 
-  const currentKey = (showReverse ? revPath : path).join(".");
-  const needOlder = typeof DICT[currentKey] === "function" && older === "unknown";
+  const showingPath = showReverse ? revPath : path;
+  const needOlder = needsOlderChoice(showingPath) && older === "unknown";
+  const needTarget = needsTargetGenderChoice(showingPath, effectiveTarget);
 
   useEffect(() => {
     document.title = path.length ? `${term}｜親戚關係計算` : "親戚關係計算";
@@ -371,7 +422,7 @@ export default function KinshipPage() {
   }
 
   return (
-    // 背景：柔和漸層 + 粒子光暈
+    // 背景：柔和漸層 + 光暈；內容垂直置中
     <div className="min-h-dvh bg-gradient-to-br from-indigo-950 via-slate-900 to-rose-900 relative overflow-hidden">
       <Header />
 
@@ -382,7 +433,6 @@ export default function KinshipPage() {
         <div className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 h-64 w-64 rounded-full bg-cyan-400/10 blur-2xl" />
       </div>
 
-      {/* 置中容器 */}
       <div className="relative z-10 min-h-dvh flex items-center justify-center px-4 py-8">
         <main className={`${Wrap}`}>
           {/* 螢幕 */}
@@ -396,10 +446,11 @@ export default function KinshipPage() {
                 <>路徑：{path.join(".") || "—"}</>
               )}
             </div>
-            {needOlder && (
+
+            {(needOlder || needTarget) && (
               <div className="mt-2 inline-flex items-center gap-2 text-xs text-yellow-300">
                 <span className="h-2 w-2 rounded-full bg-yellow-400 animate-pulse" />
-                需要選擇「年長 / 年幼」以更精確
+                {needOlder ? "需要選擇「年長 / 年幼」以更精確" : "需要選擇「對方性別」以更精確"}
               </div>
             )}
           </section>
@@ -416,6 +467,7 @@ export default function KinshipPage() {
             >
               {showReverse ? "顯示正向" : "顯示反向"}
             </button>
+
             {/* 我是男/女：男藍 女粉 */}
             <button
               className={`${BtnBase} ${
@@ -445,7 +497,13 @@ export default function KinshipPage() {
             <button className={BtnDark} onClick={() => tapStep("s")}>兒子</button>
             <button className={BtnDark} onClick={() => tapStep("d")}>女兒</button>
             <button
-              className={older === "older" ? BtnOp : needOlder ? BtnWarn : BtnLight}
+              className={
+                older === "older"
+                  ? BtnOp
+                  : needOlder
+                  ? BtnWarn
+                  : BtnLight
+              }
               onClick={() => setOlder("older")}
               aria-pressed={older === "older"}
               title="對方比我年長"
@@ -453,7 +511,13 @@ export default function KinshipPage() {
               年長
             </button>
             <button
-              className={older === "younger" ? BtnOp : needOlder ? BtnWarn : BtnLight}
+              className={
+                older === "younger"
+                  ? BtnOp
+                  : needOlder
+                  ? BtnWarn
+                  : BtnLight
+              }
               onClick={() => setOlder("younger")}
               aria-pressed={older === "younger"}
               title="對方比我年幼"
@@ -474,10 +538,10 @@ export default function KinshipPage() {
             </button>
             <button
               className={`${BtnBase} ${
-                targetGender === "male"
+                effectiveTarget === "male" || (needTarget && targetGender === "male")
                   ? "bg-blue-500 text-white border-blue-600"
                   : "bg-neutral-200 text-black border-white/10"
-              }`}
+              } ${needTarget && targetGender === "unknown" ? "animate-pulse" : ""}`}
               onClick={() => setTargetGender("male")}
               aria-pressed={targetGender === "male"}
               title="指定對方為男性"
@@ -486,10 +550,10 @@ export default function KinshipPage() {
             </button>
             <button
               className={`${BtnBase} ${
-                targetGender === "female"
+                effectiveTarget === "female" || (needTarget && targetGender === "female")
                   ? "bg-pink-400 text-white border-pink-500"
                   : "bg-neutral-200 text-black border-white/10"
-              }`}
+              } ${needTarget && targetGender === "unknown" ? "animate-pulse" : ""}`}
               onClick={() => setTargetGender("female")}
               aria-pressed={targetGender === "female"}
               title="指定對方為女性"
@@ -500,7 +564,7 @@ export default function KinshipPage() {
 
           {/* 小提示區 */}
           <p className="text-center text-xs text-white/70 mt-4">
-            提示：未覆蓋的路徑會顯示 <code className="text-white/90">未定義(…)</code>，可於程式內的 DICT 擴充。
+            提示：未覆蓋的路徑會顯示 <code className="text-white/90">未定義(…)</code>。若需更進階（如「從父/從母」分支等），可擴充 Step 字母與規則。
           </p>
         </main>
       </div>
