@@ -182,9 +182,9 @@ export default function HomePage() {
             </p>
           </div>
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <DeviceCard label="Mobile" description="Optimised for small screens." iconSrc="/vite.svg" />
-            <DeviceCard label="Tablet" description="Adaptive for medium screens." iconSrc="/vite.svg" />
-            <DeviceCard label="Desktop" description="Spacious layout for focus." iconSrc="/vite.svg" />
+            <DeviceCard label="Mobile" description="Optimised for small screens." iconSrc="" />
+            <DeviceCard label="Tablet" description="Adaptive for medium screens." iconSrc="" />
+            <DeviceCard label="Desktop" description="Spacious layout for focus." iconSrc="" />
           </div>
         </section>
       </main>
