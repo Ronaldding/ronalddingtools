@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 // --- 型別與資料結構 ---
 export type Step =
@@ -710,15 +711,8 @@ export default function KinshipPage() {
   );
 
   return (
-    <div className="min-h-dvh bg-gradient-to-br from-indigo-950 via-slate-900 to-rose-900 relative overflow-hidden">
+    <div className="min-h-dvh relative bg-black">
       <Header />
-
-      {/* 裝飾元素 */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-indigo-600/25 blur-3xl" />
-        <div className="absolute -bottom-16 -right-16 h-80 w-80 rounded-full bg-fuchsia-500/20 blur-3xl" />
-        <div className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 h-64 w-64 rounded-full bg-cyan-400/10 blur-2xl" />
-      </div>
 
       <div className="relative z-10 min-h-dvh flex items-center justify-center px-4 py-8">
         <main className={`${Wrap}`}>
@@ -853,6 +847,7 @@ export default function KinshipPage() {
 
       {/* 警告彈窗 */}
       {showRidiculousWarning && <RidiculousWarningModal />}
+      <Footer />
     </div>
   );
 }

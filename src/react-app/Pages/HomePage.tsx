@@ -1,20 +1,66 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
+import { ReactSVG } from "react-svg";
 
-function HomePage() {
+// Type definitions for component props
+interface PanelProps {
+  children: React.ReactNode;
+}
+
+interface FeatureCardProps {
+  to: string;
+  title: string;
+  subtitle: string;
+  iconEmoji: string;
+}
+
+interface DeviceCardProps {
+  label: string;
+  description: string;
+  iconSrc: string;
+}
+
+// Load article metadata
+const articleModules = import.meta.glob("../Article/*.json", { eager: true }) as Record<string, any>;
+const allArticles = Object.values(articleModules)
+  .map((m: any) => (m.default ?? m))
+  .filter((a: any) => typeof a?.id === "number" && typeof a?.title === "string")
+  .sort((a: any, b: any) => (a.publishedAt > b.publishedAt ? -1 : 1));
+const latestTwo = allArticles.slice(0, 2);
+
+/**
+ * Apple.com-inspired redesign notes
+ * — Minimal, airy layout; generous whitespace; monochrome palette with subtle tints
+ * — Large typographic scale, tight tracking on display text
+ * — Subtle dividers (border-gray-200), soft shadows only on hover
+ * — Clear hierarchy; fewer colors; focus on content
+ */
+
+export default function HomePage() {
   const [count, setCount] = useState(0);
   const [name, setName] = useState("Click to fetch!");
   const [isLoading, setIsLoading] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  // Dummy API fetch function
+  // Weather fetch
   const fetchName = async () => {
     setIsLoading(true);
-    setTimeout(() => {
-      setName("Sample Data");
-      setIsLoading(false);
-    }, 1000);
+    try {
+      const url = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=rhrread&lang=en";
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data: any = await res.json();
+      const tempList = data?.temperature?.data ?? [];
+      const hko = tempList.find((d: any) => d?.place === "Hong Kong Observatory") ?? tempList[0];
+      const temp = hko?.value; const tempUnit = hko?.unit ?? "C";
+      const rh = data?.humidity?.data?.[0]?.value;
+      const t = data?.temperature?.recordTime ?? data?.updateTime ?? "";
+      const time = typeof t === "string" ? t.replace(/.*T(\d{2}:\d{2}).*/, "$1") : "";
+      const summary = [temp != null ? `${temp}°${tempUnit}` : null, rh != null ? `RH ${rh}%` : null, time ? `at ${time}` : null].filter(Boolean).join(" · ");
+      setName(summary || "No data");
+    } catch (err) { setName("Failed to fetch weather"); } finally { setIsLoading(false); }
   };
 
   // Update window width on resize
@@ -25,362 +71,177 @@ function HomePage() {
   }, []);
 
   return (
-    <div
-      className={`min-h-screen flex flex-col transition-colors duration-300 bg-gradient-to-br from-purple-500 via-blue-500 to-pink-500 text-white`}
-    >
-      {/* Full-width wrapper for sticky Header */}
-      <div className="w-full sticky top-0 z-50">
-        <Header />
-      </div>
+    <div className="min-h-screen flex flex-col bg-[#fbfbfd] text-gray-900 antialiased">
+      {/* Global header */}
+      <Header />
 
-      {/* Main Content */}
-      <main className="flex-grow container mx-auto px-4 py-8">
-        <section className="text-center mb-12">
-          <h1 className="text-[clamp(2.5rem,6vw,4rem)] font-extrabold mb-4 tracking-tight animate-pulse">
-            <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
-              Ronald Ding's Awesome App
-            </span>
-          </h1>
-        <p className="text-[clamp(1rem,2vw,1.25rem)] text-gray-200 max-w-2xl mx-auto">
-            A modern web app with fun tools and a vibrant experience!
-          </p>
-        </section>
-
-        {/* Feature Cards */}
-        <section className="mb-16">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Link to="/qr-code" className="no-underline">
-              <div className="bg-white/90 backdrop-blur-md rounded-xl shadow-lg p-6 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
-                <div className="flex justify-center mb-4">
-                  <svg
-                    className="h-16 w-16 text-purple-600"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7zM4 4v5h5V4H4zM15 4v5h5V4h-5zM4 15v5h5v-5H4zM15 15v5h5v-5h-5zM6 6h1v1H6V6zM17 6h1v1h-1V6zM6 17h1v1H6v-1zM17 17h1v1h-1v-1z" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-bold mb-2 text-center text-purple-900">
-                  QR Code Generator
-                </h3>
-                <p className="text-gray-600 text-center">
-                  Create custom QR codes for any URL or text with style!
-                </p>
-              </div>
-            </Link>
-
-            <Link to="/calculator" className="no-underline">
-              <div className="bg-white/90 backdrop-blur-md rounded-xl shadow-lg p-6 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
-                <div className="flex justify-center mb-4">
-                  <svg
-                    className="h-16 w-16 text-blue-600"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M7 2h10a2 2 0 012 2v16a2 2 0 01-2 2H7a2 2 0 01-2-2V4a2 2 0 012-2zm0 2v16h10V4H7zm2 2h6v2H9V6zm0 3h2v2H9V9zm4 0h2v2h-2V9zm-4 3h2v2H9v-2zm4 0h2v2h-2v-2zm-4 3h2v2H9v-2zm4 0h2v2h-2v-2z" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-bold mb-2 text-center text-blue-900">
-                  Calculator
-                </h3>
-                <p className="text-gray-600 text-center">
-                  Perform quick calculations with an interactive tool.
-                </p>
-              </div>
-            </Link>
-
-            {/* ⬇️ Replaced Date Counter with Kinship Calculator */}
-            <Link to="/kinship" className="no-underline">
-              <div className="bg-white/90 backdrop-blur-md rounded-xl shadow-lg p-6 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
-                <div className="flex justify-center mb-4">
-                  <svg
-                    className="h-16 w-16 text-rose-600"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                  >
-                    {/* people-network icon */}
-                    <path d="M7 7a3 3 0 116.001.001A3 3 0 017 7zm9-2a2 2 0 110 4 2 2 0 010-4zM4 15a3 3 0 013-3h4a3 3 0 013 3v2H4v-2zm12.5-3c1.933 0 3.5 1.567 3.5 3.5V17h-5v-1.5c0-1.104.896-2 2-2z" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-bold mb-2 text-center text-rose-900">
-                  Kinship Calculator 親戚稱呼計算
-                </h3>
-                <p className="text-gray-600 text-center">
-                  Work out family terms by paths like「f.ob.s」and more.
-                </p>
-              </div>
-            </Link>
-
-            <Link to="/racing-game" className="no-underline">
-              <div className="bg-white/90 backdrop-blur-md rounded-xl shadow-lg p-6 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
-                <div className="flex justify-center mb-4">
-                  <svg
-                    className="h-16 w-16 text-green-600"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    {/* racing car icon */}
-                    <path d="M18.92 2.01c-.97 0-1.78.63-2.07 1.5l-.84 2.49H9c-.83 0-1.58.34-2.12.88-.54.54-.88 1.29-.88 2.12v11c0 .83.34 1.58.88 2.12.54.54 1.29.88 2.12.88h6c.83 0 1.58-.34 2.12-.88.54-.54.88-1.29.88-2.12V8c0-.83-.34-1.58-.88-2.12-.54-.54-1.29-.88-2.12-.88h-.99l.84-2.49c.29-.87 1.1-1.5 2.07-1.5.89 0 1.68.58 1.95 1.44l1.52 4.56H21.8c.55 0 1 .45 1 1s-.45 1-1 1h-1.81l-1.52-4.56C16.6 2.59 17.68 2.01 18.92 2.01zM7 10h10v8H7v-8z" />
-                    <circle cx="9" cy="14" r="1.5" />
-                    <circle cx="15" cy="14" r="1.5" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-bold mb-2 text-center text-green-900">
-                  3D Racing Game
-                </h3>
-                <p className="text-gray-600 text-center">
-                  Race in a stunning 3D environment with realistic physics!
-                </p>
-              </div>
-            </Link>
+      {/* Hero */}
+      <main className="flex-grow">
+        <section className="mx-auto max-w-7xl px-6 sm:px-8 pt-16 pb-12 lg:pt-24 lg:pb-16">
+          <div className="text-center">
+            <h1 className="text-[clamp(2.25rem,7vw,4.5rem)] font-semibold tracking-tight leading-[1.05]">
+              <span className="block">Ronald Ding</span>
+              <span className="block text-gray-700">Tools that feel effortless.</span>
+            </h1>
+            <p className="mt-6 text-[clamp(1rem,2vw,1.25rem)] text-gray-600 max-w-2xl mx-auto">
+              A focused set of utilities designed with clarity and care. No fluff—just what you need, beautifully engineered.
+            </p>
           </div>
         </section>
 
-        {/* Interactive Cards */}
-        <section className="max-w-4xl mx-auto mb-16">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg p-8 relative overflow-hidden transform hover:scale-105 transition-transform duration-300">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-200/50 rounded-full -mr-16 -mt-16 animate-spin-slow"></div>
-              <div className="absolute bottom-0 left-0 w-24 h-24 bg-yellow-200/50 rounded-full -ml-12 -mb-12 animate-spin-slow"></div>
-              <div className="relative">
-                <h2 className="text-2xl font-bold mb-4 text-purple-900">Counter</h2>
-                <p className="text-gray-600 mb-6">
-                  Click the button to increment the counter and see React in action!
-                </p>
+        {/* Big Poster with Fade Colors */}
+        <section className="w-full min-h-[80vh] flex items-center">
+          <div className="relative overflow-hidden bg-gradient-to-b from-blue-50 via-blue-100/30 to-white px-6 sm:px-8 w-full min-h-[80vh] flex items-center">
+            <div className="mx-auto max-w-7xl text-center w-full">
+              <h2 className="text-4xl lg:text-6xl font-semibold tracking-tight mb-8 text-gray-900">
+                Build Something Amazing
+              </h2>
+              <p className="text-xl lg:text-3xl text-gray-600 max-w-4xl mx-auto mb-12">
+                Every tool here is crafted with precision. From simple calculators to complex 3D games, 
+                experience the power of thoughtful design.
+              </p>
+              <div className="flex flex-wrap justify-center gap-6">
+                <div className="bg-white/60 backdrop-blur-sm rounded-full px-8 py-4 text-base font-medium text-gray-700 border border-gray-200/50">
+                  🚀 Fast Performance
+                </div>
+                <div className="bg-white/60 backdrop-blur-sm rounded-full px-8 py-4 text-base font-medium text-gray-700 border border-gray-200/50">
+                  🎨 Beautiful Design
+                </div>
+                <div className="bg-white/60 backdrop-blur-sm rounded-full px-8 py-4 text-base font-medium text-gray-700 border border-gray-200/50">
+                  📱 Mobile First
+                </div>
+              </div>
+            </div>
+            {/* Very subtle decorative elements */}
+            <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-100/20 to-transparent rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-blue-100/20 to-transparent rounded-full blur-3xl"></div>
+          </div>
+        </section>
+
+        {/* Feature grid */}
+        <section className="mx-auto max-w-7xl px-6 sm:px-8 pb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <FeatureCard to="/qr-code" title="QR Code Generator" subtitle="Create clean, scannable codes for any URL or text." iconEmoji="<i class='bi bi-qr-code-scan'></i>" />
+            <FeatureCard to="/calculator" title="Calculator" subtitle="Fast, precise calculations with a crisp UI." iconEmoji="<i class='bi bi-calculator'></i>" />
+            <FeatureCard to="/kinship" title="Kinship Calculator 親戚稱呼計算" subtitle="Work out family terms by paths like「f.ob.s」." iconEmoji="<i class='bi bi-people'></i>" />
+            <FeatureCard to="/racing-game" title="3D Racing Game" subtitle="Race in a sleek 3D environment with realistic physics." iconEmoji="<i class='bi bi-speedometer2'></i>" />
+            {latestTwo.map((a: any) => (
+              <ArticleTeaser key={a.id} id={a.id} title={a.title} />
+            ))}
+          </div>
+        </section>
+
+        {/* Two-up interactive cards */}
+        <section className="mx-auto max-w-7xl px-6 sm:px-8 py-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Counter */}
+            <Panel>
+              <h2 className="text-2xl font-semibold tracking-tight">Counter</h2>
+              <p className="mt-2 text-gray-600">Click to increment and see React state in action.</p>
+              <div className="mt-6">
                 <button
-                  onClick={() => setCount(count + 1)}
-                  className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-6 py-3 rounded-lg shadow-md hover:shadow-xl transform transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-yellow-400 flex items-center justify-center"
+                  onClick={() => setCount((c) => c + 1)}
+                  className="inline-flex items-center gap-2 rounded-full border border-gray-300 bg-white px-5 py-3 text-sm font-medium shadow-sm hover:shadow transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-black/30"
                 >
-                  <svg
-                    className="w-5 h-5 mr-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
-                  </svg>
+                  <span className="h-4 w-4 inline-block">+</span>
                   Counter: {count}
                 </button>
               </div>
-            </div>
+            </Panel>
 
-            <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg p-8 relative overflow-hidden transform hover:scale-105 transition-transform duration-300">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-200/50 rounded-full -mr-16 -mt-16 animate-spin-slow"></div>
-              <div className="absolute bottom-0 left-0 w-24 h-24 bg-blue-200/50 rounded-full -ml-12 -mb-12 animate-spin-slow"></div>
-              <div className="relative">
-                <h2 className="text-2xl font-bold mb-4 text-blue-900">API Call</h2>
-                <p className="text-gray-600 mb-6">
-                  Fetch sample data with a click (simulated API response).
-                </p>
+            {/* API Call */}
+            <Panel>
+              <h2 className="text-2xl font-semibold tracking-tight">API Call</h2>
+              <p className="mt-2 text-gray-600">Fetch sample data with a single tap (weather snapshot).</p>
+              <div className="mt-6">
                 <button
                   onClick={fetchName}
-                  className="bg-gradient-to-r from-blue-500 to-teal-600 text-white px-6 py-3 rounded-lg shadow-md hover:shadow-xl transform transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center justify-center"
                   disabled={isLoading}
+                  className="inline-flex items-center gap-2 rounded-full border border-gray-300 bg-white px-5 py-3 text-sm font-medium shadow-sm hover:shadow transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-black/30 disabled:opacity-60"
                 >
                   {isLoading ? (
-                    <span className="flex items-center">
-                      <svg
-                        className="w-5 h-5 mr-2 animate-spin"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M4 12a8 8 0 0116 0 8 8 0 01-16 0"
-                        />
-                      </svg>
-                      Loading...
-                    </span>
+                    <>
+                      <span className="h-4 w-4 inline-block animate-spin">⏳</span>
+                      Loading…
+                    </>
                   ) : (
-                    <span className="flex items-center">
-                      <svg
-                        className="w-5 h-5 mr-2"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                        />
-                      </svg>
-                      API Response: {name}
-                    </span>
+                    <>Weather: {name}</>
                   )}
                 </button>
               </div>
-            </div>
+            </Panel>
           </div>
         </section>
 
-        {/* Responsive Design Demo */}
-        <section className="mt-16 text-center">
-          <h2 className="text-3xl font-bold mb-6 text-white animate-bounce">Responsive Design</h2>
-          <p className="text-gray-200 mb-8 max-w-2xl mx-auto">
-            This app shines on all devices! Current window width:{" "}
-            <span className="font-bold">{windowWidth}px</span>
-          </p>
-          <div className="flex flex-wrap justify-center gap-6">
-            <div className="bg-white/90 backdrop-blur-md rounded-lg shadow-md p-4 w-64 transform hover:scale-105 transition-transform duration-300">
-              <div className="h-40 bg-gray-200/50 rounded mb-3 flex items-center justify-center">
-                <svg
-                  className="h-12 w-12 text-purple-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M5 3h14a2 2 0 012 2v16a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2zm2 16h10M9 7h6"
-                  />
-                </svg>
-              </div>
-              <h3 className="font-medium text-purple-900">Mobile</h3>
-              <p className="text-sm text-gray-600">Perfect for small screens.</p>
-            </div>
-            <div className="bg-white/90 backdrop-blur-md rounded-lg shadow-md p-4 w-64 transform hover:scale-105 transition-transform duration-300">
-              <div className="h-40 bg-gray-200/50 rounded mb-3 flex items-center justify-center">
-                <svg
-                  className="h-12 w-12 text-blue-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
-                  />
-                </svg>
-              </div>
-              <h3 className="font-medium text-blue-900">Tablet</h3>
-              <p className="text-sm text-gray-600">Optimized for medium screens.</p>
-            </div>
-            <div className="bg-white/90 backdrop-blur-md rounded-lg shadow-md p-4 w-64 transform hover:scale-105 transition-transform duration-300">
-              <div className="h-40 bg-gray-200/50 rounded mb-3 flex items-center justify-center">
-                <svg
-                  className="h-12 w-12 text-green-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                  />
-                </svg>
-              </div>
-              <h3 className="font-medium text-green-900">Desktop</h3>
-              <p className="text-sm text-gray-600">Full-featured for large screens.</p>
-            </div>
+        {/* Responsive demo */}
+        <section className="mx-auto max-w-7xl px-6 sm:px-8 pb-16">
+          <div className="text-center">
+            <h2 className="text-3xl font-semibold tracking-tight">Responsive Design</h2>
+            <p className="mt-3 text-gray-600 max-w-2xl mx-auto">
+              Built to look great on every device. Current window width: <span className="font-medium text-gray-900">{windowWidth}px</span>
+            </p>
+          </div>
+          <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <DeviceCard label="Mobile" description="Optimised for small screens." iconSrc="/vite.svg" />
+            <DeviceCard label="Tablet" description="Adaptive for medium screens." iconSrc="/vite.svg" />
+            <DeviceCard label="Desktop" description="Spacious layout for focus." iconSrc="/vite.svg" />
           </div>
         </section>
       </main>
 
       {/* Footer */}
-      <footer className="bg-white/90 backdrop-blur-md shadow-inner py-8">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-6 md:mb-0">
-              <div className="flex items-center space-x-2">
-                <svg
-                  className="h-6 w-6 text-purple-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M13 10V3L4 14h7v7l9-11h-7z"
-                  />
-                </svg>
-                <span className="font-bold text-lg text-purple-900">
-                  Ronald Ding's App
-                </span>
-              </div>
-              <p className="text-sm text-gray-600 mt-2">
-                A fun and modern web experience built with React and Tailwind CSS.
-              </p>
-            </div>
-            <div className="flex space-x-6">
-              <a
-                href="https://github.com"
-                className="text-gray-600 hover:text-yellow-400 transition-colors"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <svg
-                  className="h-6 w-6"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M12 2C6.48 2 2 6.48 2 12c0 4.41 2.87 8.14 6.84 9.49.5.09.68-.22.68-.48v-1.71c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.58 9.58 0 0112 6.8c.85 0 1.71.11 2.52.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .26.18.58.69.48A10.01 10.01 0 0022 12c0-5.52-4.48-10-10-10z" />
-                </svg>
-              </a>
-              <a
-                href="https://twitter.com"
-                className="text-gray-600 hover:text-yellow-400 transition-colors"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <svg
-                  className="h-6 w-6"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M18.24 4.15a.75.75 0 011.06 0l1.56 1.56a.75.75 0 010 1.06l-1.56 1.56a.75.75 0 01-1.06 0L16.68 6.77a.75.75 0 010-1.06l1.56-1.56zM3 10.5a.5.5 0 01.5-.5h17a.5.5 0 01.5.5v3a.5.5 0 01-.5.5h-17a.5.5 0 01-.5-.5v-3zm1.5 6.5a.5.5 0 01.5-.5h14a.5.5 0 01.5.5v3a.5.5 0 01-.5.5h-14a.5.5 0 01-.5-.5v-3z" />
-                </svg>
-              </a>
-              <a
-                href="https://linkedin.com"
-                className="text-gray-600 hover:text-yellow-400 transition-colors"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <svg
-                  className="h-6 w-6"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14zm-9.75 3.75a2.25 2.25 0 10-4.5 0 2.25 2.25 0 004.5 0zM6.75 9.75h3v9h-3v-9zm5.25 0h3v1.5h-3v-1.5zm0 3h3v6h-3v-6z" />
-                </svg>
-              </a>
-            </div>
-          </div>
-          <div className="border-t border-gray-200/50 mt-8 pt-8 text-center text-sm text-gray-200">
-            © 2025 Ronald Ding's App. All rights reserved.
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
 
-export default HomePage;
+/* ——— Reusable components ——— */
+function Panel({ children }: PanelProps) {
+  return (
+    <div className="relative overflow-hidden rounded-2xl border border-gray-200 bg-white p-8">
+      {children}
+    </div>
+  );
+}
+
+function FeatureCard({ to, title, subtitle, iconEmoji }: FeatureCardProps) {
+  return (
+    <Link to={to} className="group block focus:outline-none">
+      <div className="rounded-2xl border border-gray-200 bg-white p-6 h-full transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:shadow-sm">
+        <div className="flex justify-center mb-4 text-4xl" dangerouslySetInnerHTML={{__html: iconEmoji}} />
+        <h3 className="text-lg font-semibold text-center tracking-tight">{title}</h3>
+        <p className="mt-2 text-sm text-gray-600 text-center">{subtitle}</p>
+      </div>
+    </Link>
+  );
+}
+
+function ArticleTeaser({ id, title }: { id: number; title: string }) {
+  return (
+    <Link to={`/article/id/${id}`} className="group block focus:outline-none col-span-1 sm:col-span-2 lg:col-span-2">
+      <div className="relative overflow-hidden rounded-2xl border border-gray-200 bg-gradient-to-b from-white via-gray-50 to-gray-100 p-6 h-full text-gray-900">
+        <div className="relative z-10 flex items-center gap-4">
+          <div className="h-14 w-14 rounded-xl bg-white border border-gray-200 grid place-items-center shadow-sm">
+            <div className="text-xl">📰</div>
+          </div>
+          <div>
+            <h3 className="text-xl font-semibold tracking-tight truncate">{title}</h3>
+            <p className="text-sm text-gray-600">最新文章</p>
+          </div>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+function DeviceCard({ label, description, iconSrc }: DeviceCardProps) {
+  return (
+    <div className="rounded-2xl border border-gray-200 bg-white p-6 text-center transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-sm">
+      <div className="h-32 rounded-xl border border-dashed border-gray-200 mb-4 grid place-items-center">
+        <div className="text-2xl">📱</div>
+      </div>
+      <h4 className="font-medium">{label}</h4>
+      <p className="text-sm text-gray-600">{description}</p>
+    </div>
+  );
+}

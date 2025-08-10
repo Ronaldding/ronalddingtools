@@ -1,0 +1,26 @@
+{
+  "id": 2,
+  "section": "書摘｜效率與成長",
+  "title": "《誰搬走了我的乳酪》快速導讀：面對變化的四個步驟",
+  "author": "編輯部",
+  "publishedAt": "2025-08-10 22:20",
+  "readMinutes": 4,
+  "heroImage": {
+    "src": "https://upload.wikimedia.org/wikipedia/en/8/8b/Who_Moved_My_Cheese_Cover.jpg",
+    "alt": "Who Moved My Cheese cover",
+    "caption": "《誰搬走了我的乳酪》書封（維基共享）"
+  },
+  "blocks": [
+    {"type": "paragraph", "text": "本書以寓言闡述如何應對環境變化：觀察、快速行動、享受新乳酪、持續更新。"},
+    {"type": "list", "ordered": true, "items": [
+      "嗅嗅與匆匆——及早嗅到變化，立刻行動",
+      "哼哼與唧唧——跨越恐懼，走出舒適圈",
+      "在牆上寫下筆記——用小步驟積累信心",
+      "找到新乳酪——持續學習與調整"
+    ]},
+    {"type": "blockquote", "text": "越早放下舊乳酪，越早找到新乳酪。"}
+  ],
+  "related": [
+    {"text": "維基百科：誰搬走了我的乳酪", "href": "https://zh.wikipedia.org/zh-tw/%E8%AA%B0%E6%90%AC%E8%B5%B0%E4%BA%86%E6%88%91%E7%9A%84%E4%B9%B3%E9%85%AA"}
+  ]
+} 

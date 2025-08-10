@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 /** 
  * Fx‑50FHII outline (no D‑pad): 6×5 + 5×4 grids only.
@@ -174,6 +175,7 @@ export default function CalculatorPage() {
     <div className="min-h-screen bg-white">
       <Header />
       <KeypadOnly />
+      <Footer />
     </div>
   );
 }

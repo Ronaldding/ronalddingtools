@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 function RacingGame() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -230,6 +231,7 @@ function RacingGame() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
