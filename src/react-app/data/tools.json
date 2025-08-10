@@ -1,0 +1,200 @@
+[
+  {
+    "id": "qr-code",
+    "to": "/qr-code",
+    "title": "QR Code Generator",
+    "subtitle": "Create clean, scannable codes for any URL or text.",
+    "iconEmoji": "<i class='bi bi-qr-code-scan'></i>",
+    "category": "utility",
+    "description": "Professional QR code generator with customizable options for size, color, and error correction"
+  },
+  {
+    "id": "kinship",
+    "to": "/kinship",
+    "title": "Kinship Calculator 親戚稱呼計算",
+    "subtitle": "Work out family terms by paths like「f.ob.s」.",
+    "iconEmoji": "<i class='bi bi-people'></i>",
+    "category": "utility",
+    "description": "Calculate Chinese kinship terms and relationships through intuitive path notation"
+  },
+  {
+    "id": "cheque-converter",
+    "to": "/cheque-converter",
+    "title": "Cheque Writer 支票寫紙轉換",
+    "subtitle": "Convert numbers to traditional Chinese and English cheque formats.",
+    "iconEmoji": "<i class='bi bi-file-earmark-text'></i>",
+    "category": "finance",
+    "description": "Accurately converts numerical values to legal cheque formats in both traditional Chinese and English"
+  },
+  {
+    "id": "text-to-number",
+    "to": "/text-to-number",
+    "title": "Text to Number Converter",
+    "subtitle": "Convert words like '2 thousand' or '2千元' to numeric 2000.",
+    "iconEmoji": "<i class='bi bi-arrow-right-left'></i>",
+    "category": "converter",
+    "description": "Smart conversion of written numbers to numeric values with error handling for invalid inputs"
+  },
+  {
+    "id": "timezone-calculator",
+    "to": "/timezone-calculator",
+    "title": "Time Zone Calculator",
+    "subtitle": "Compare and convert times across different global time zones.",
+    "iconEmoji": "<i class='bi bi-globe'></i>",
+    "category": "utility",
+    "description": "Easily calculate and compare times between multiple cities and time zones worldwide"
+  },
+  {
+    "id": "youtube-to-mp3",
+    "to": "/youtube-to-mp3",
+    "title": "YouTube to MP3",
+    "subtitle": "Extract audio from YouTube videos in high quality.",
+    "iconEmoji": "<i class='bi bi-music-note-beamed'></i>",
+    "category": "media",
+    "description": "Convert YouTube video content to MP3 audio files with various quality options"
+  },
+  {
+    "id": "cuhk-courses",
+    "to": "/cuhk-courses",
+    "title": "CUHK Course Finder",
+    "subtitle": "Search and explore courses offered by The Chinese University of Hong Kong.",
+    "iconEmoji": "<i class='bi bi-book'></i>",
+    "category": "education",
+    "description": "Comprehensive database of CUHK courses with details on prerequisites and schedules"
+  },
+  {
+    "id": "hku-courses",
+    "to": "/hku-courses",
+    "title": "HKU Course Finder",
+    "subtitle": "Browse and search courses from The University of Hong Kong.",
+    "iconEmoji": "<i class='bi bi-book-half'></i>",
+    "category": "education",
+    "description": "Complete guide to HKU courses including credit information and instructor details"
+  },
+  {
+    "id": "jupas-calculator",
+    "to": "/jupas-calculator",
+    "title": "JUPAS 計分器",
+    "subtitle": "Calculate and estimate your JUPAS admission scores.",
+    "iconEmoji": "<i class='bi bi-calculator'></i>",
+    "category": "education",
+    "description": "Estimate your JUPAS application scores based on HKDSE results and program requirements"
+  },
+  {
+    "id": "exam-easy",
+    "to": "/exam-easy",
+    "title": "考試易連結",
+    "subtitle": "Direct access to Hong Kong's Exam Easy resources.",
+    "iconEmoji": "<i class='bi bi-link'></i>",
+    "category": "education",
+    "description": "Quick links to Exam Easy past papers and examination resources for Hong Kong students"
+  },
+  {
+    "id": "bill-gates-money",
+    "to": "/bill-gates-money",
+    "title": "Spend Bill Gates' Money",
+    "subtitle": "Simulate spending with Bill Gates' net worth.",
+    "iconEmoji": "<i class='bi bi-cash-stack'></i>",
+    "category": "game",
+    "description": "Fun simulation game where you manage and spend a fortune equal to Bill Gates' net worth"
+  },
+  {
+    "id": "safe-period",
+    "to": "/safe-period",
+    "title": "安全期計算",
+    "subtitle": "Calculate fertile and safe periods for family planning.",
+    "iconEmoji": "<i class='bi bi-calendar-date'></i>",
+    "category": "health",
+    "description": "Discreet calculator for menstrual cycle tracking and fertility planning"
+  },
+  {
+    "id": "mindfulness",
+    "to": "/mindfulness",
+    "title": "Mindfulness Timer",
+    "subtitle": "Guided meditation and breathing exercises.",
+    "iconEmoji": "<i class='bi bi-moon'></i>",
+    "category": "health",
+    "description": "Simple mindfulness tool with timed meditation sessions and breathing guides"
+  },
+  {
+    "id": "color-picker",
+    "to": "/color-picker",
+    "title": "Color Picker",
+    "subtitle": "Select and generate color palettes with code values.",
+    "iconEmoji": "<i class='bi bi-palette'></i>",
+    "category": "design",
+    "description": "Advanced color picker with HEX, RGB, HSL values and palette generation"
+  },
+  {
+    "id": "js-ide",
+    "to": "/js-ide",
+    "title": "JS IDE",
+    "subtitle": "Lightweight JavaScript editor with real-time execution.",
+    "iconEmoji": "<i class='bi bi-code-slash'></i>",
+    "category": "development",
+    "description": "Online JavaScript IDE with syntax highlighting and instant code execution"
+  },
+  {
+    "id": "toastmaster-timer",
+    "to": "/toastmaster-timer",
+    "title": "Toastmaster Timer",
+    "subtitle": "Timing device for speeches and meetings.",
+    "iconEmoji": "<i class='bi bi-clock-stopwatch'></i>",
+    "category": "productivity",
+    "description": "Specialized timer for Toastmasters meetings with visual cues for speech timing"
+  },
+  {
+    "id": "casio-calculator",
+    "to": "/casio-calculator",
+    "title": "CASIO Style Calculator",
+    "subtitle": "Classic calculator interface inspired by CASIO designs.",
+    "iconEmoji": "<i class='bi bi-calculator-fill'></i>",
+    "category": "utility",
+    "description": "Calculator with the familiar CASIO interface and functionality"
+  },
+  {
+    "id": "circuit-simulator",
+    "to": "/circuit-simulator",
+    "title": "Circuit Simulator",
+    "subtitle": "Design and test electronic circuits virtually.",
+    "iconEmoji": "<i class='bi bi-lightbulb'></i>",
+    "category": "education",
+    "description": "Simulate electronic circuits with various components and test functionality"
+  },
+  {
+    "id": "bad-weather",
+    "to": "/bad-weather",
+    "title": "惡劣天氣 返工時間",
+    "subtitle": "Check work hours during severe weather conditions.",
+    "iconEmoji": "<i class='bi bi-cloud-lightning-rain'></i>",
+    "category": "utility",
+    "description": "Information on work arrangements during Hong Kong's severe weather conditions"
+  },
+  {
+    "id": "classic-games",
+    "to": "/classic-games",
+    "title": "經典小遊戲合集",
+    "subtitle": "Collection of classic 7k7k/4399 style mini-games.",
+    "iconEmoji": "<i class='bi bi-controller'></i>",
+    "category": "game",
+    "description": "Retro collection of popular flash-style mini-games from 7k7k and 4399"
+  },
+  {
+    "id": "mahjong-calculator",
+    "to": "/mahjong-calculator",
+    "title": "麻雀計算器",
+    "subtitle": "Calculate scores for Hong Kong Mahjong games.",
+    "iconEmoji": "<i class='bi bi-calculator'></i>",
+    "category": "game",
+    "description": "Score calculator for Hong Kong style Mahjong with various rule sets"
+  },
+  {
+    "id": "gov-open-data",
+    "to": "/gov-open-data",
+    "title": "政府開放數據",
+    "subtitle": "Access and visualize Hong Kong government open data.",
+    "iconEmoji": "<i class='bi bi-database'></i>",
+    "category": "utility",
+    "description": "Interface for exploring and visualizing Hong Kong government open data sets"
+  }
+]

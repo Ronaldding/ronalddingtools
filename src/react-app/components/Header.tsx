@@ -11,8 +11,11 @@ function Header() {
           </div>
           <nav>
             <ul className="flex space-x-6">
-              <li><a href="https://llm.ronaldding.com" className="text-black" target="_blank" rel="noopener noreferrer">LLM</a></li>
-              <li><a href="https://tv.ronaldding.com" className="text-black" target="_blank" rel="noopener noreferrer">TV</a></li>
+              <li><a href="/tools" className="text-black hover:text-gray-600 transition-colors">Tools</a></li>
+              <li><a href="/games" className="text-black hover:text-gray-600 transition-colors">Games</a></li>
+              <li><a href="/articles" className="text-black hover:text-gray-600 transition-colors">Articles</a></li>
+              <li><a href="https://llm.ronaldding.com" className="text-black hover:text-gray-600 transition-colors" target="_blank" rel="noopener noreferrer">LLM</a></li>
+              <li><a href="https://tv.ronaldding.com" className="text-black hover:text-gray-600 transition-colors" target="_blank" rel="noopener noreferrer">TV</a></li>
             </ul>
           </nav>
         </div>

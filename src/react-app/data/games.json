@@ -1,0 +1,47 @@
+[
+  {
+    "id": "racing-game",
+    "to": "/racing-game",
+    "title": "3D Racing Game",
+    "subtitle": "Race in a sleek 3D environment with realistic physics and multiple tracks.",
+    "iconEmoji": "<i class='bi bi-speedometer2'></i>",
+    "category": "action",
+    "description": "Immersive 3D racing experience with advanced physics engine, customizable cars, and competitive multiplayer modes."
+  },
+  {
+    "id": "puzzle-adventure",
+    "to": "/puzzle-adventure",
+    "title": "Mystic Puzzle Adventure",
+    "subtitle": "Solve ancient riddles to uncover hidden treasures in a magical world.",
+    "iconEmoji": "<i class='bi bi-puzzle'></i>",
+    "category": "puzzle",
+    "description": "Journey through enchanted forests and ancient ruins while solving increasingly complex puzzles to progress through the story."
+  },
+  {
+    "id": "space-invaders",
+    "to": "/space-invaders",
+    "title": "Galactic Defender",
+    "subtitle": "Protect the galaxy from alien invasions with powerful weapons.",
+    "iconEmoji": "<i class='bi bi-rocket'></i>",
+    "category": "shooter",
+    "description": "Classic arcade-style shooter with modern graphics, upgradeable spaceships, and wave-based enemy attacks."
+  },
+  {
+    "id": "farm-simulator",
+    "to": "/farm-simulator",
+    "title": "Harvest Valley",
+    "subtitle": "Build and manage your own farm from a small plot to a thriving estate.",
+    "iconEmoji": "<i class='bi bi-seedling'></i>",
+    "category": "simulation",
+    "description": "Plant crops, raise animals, and expand your farm with new buildings and equipment as you grow your agricultural empire."
+  },
+  {
+    "id": "chess-master",
+    "to": "/chess-master",
+    "title": "Chess Master Pro",
+    "subtitle": "Challenge yourself with AI opponents of varying difficulty levels.",
+    "iconEmoji": "<i class='bi bi-chess'></i>",
+    "category": "strategy",
+    "description": "Improve your chess skills with tutorials, puzzles, and competitive gameplay against AI with 10 difficulty settings."
+  }
+]

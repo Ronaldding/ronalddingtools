@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "to": "/article/id/1",
+    "title": "太宰治《人間失格》導讀：文本結構、主題母題與時代脈絡",
+    "subtitle": "深入解析《人間失格》的文學結構、核心主題與時代背景，探索太宰治筆下的人性困境。",
+    "iconEmoji": "📚",
+    "section": "藝文｜評論專題",
+    "readMinutes": 6,
+    "publishedAt": "2025-08-10 22:12",
+    "category": "literature",
+    "description": "Comprehensive analysis of Dazai Osamu's 'No Longer Human'"
+  },
+  {
+    "id": 2,
+    "to": "/article/id/2",
+    "title": "《誰搬走了我的乳酪》快速導讀：面對變化的四個步驟",
+    "subtitle": "學習如何應對環境變化的實用指南，掌握觀察、行動、享受和更新的關鍵步驟。",
+    "iconEmoji": "🧀",
+    "section": "書摘｜效率與成長",
+    "readMinutes": 4,
+    "publishedAt": "2025-08-10 22:20",
+    "category": "self-help",
+    "description": "Quick guide to adapting to change based on 'Who Moved My Cheese'"
+  },
+  {
+    "id": 3,
+    "to": "/article/id/3",
+    "title": "《我們住在焦慮星球》閱讀紀錄",
+    "subtitle": "在焦慮時代尋找內心平靜的溫柔哲學，學會與焦慮共處的實用智慧。",
+    "description": "Reading notes on 'Notes on a Nervous Planet' by Matt Haig",
+    "iconEmoji": "🌍",
+    "section": "書評｜閱讀紀錄",
+    "readMinutes": 7,
+    "publishedAt": "2025-08-11 00:00",
+    "category": "philosophy"
+  }
+] 

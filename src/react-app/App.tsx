@@ -6,6 +6,9 @@ import QRCodePage from "./Pages/QRCodePage";
 import CalculatorPage from "./Pages/CalculatorPage";
 import KinshipPage from "./Pages/KinshipPage";
 import RacingGame from "./Pages/RacingGame";
+import ToolsPage from "./Pages/ToolsPage";
+import GamesPage from "./Pages/GamesPage";
+import ArticlesPage from "./Pages/ArticlesPage";
 import Article from "./Pages/Article";
 import { useEffect } from "react";
 
@@ -27,6 +30,9 @@ function App() {
         <Route path="/calculator" element={<CalculatorPage />} />
         <Route path="/kinship" element={<KinshipPage />} />
         <Route path="/racing-game" element={<RacingGame />} />
+        <Route path="/tools" element={<ToolsPage />} />
+        <Route path="/games" element={<GamesPage />} />
+        <Route path="/articles" element={<ArticlesPage />} />
         <Route path="/article" element={<Article />} />
         <Route path="/article/id/:id/*" element={<Article />} />
         <Route path="*" element={<NotFoundPage />} />
