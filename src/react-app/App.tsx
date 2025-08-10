@@ -1,11 +1,11 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import HomePage from "./HomePage/HomePage";
-import NotFoundPage from "./NotFoundPage";
-import QRCodePage from "./QRCodePage/QRCodePage";
-import CalculatorPage from "./CalculatorPage/CalculatorPage";
-import KinshipPage from "./KinshipPage/KinshipPage";
-import RacingGame from "./RacingGame/RacingGame";
+import HomePage from "./Pages/HomePage";
+import NotFoundPage from "./Pages/NotFoundPage";
+import QRCodePage from "./Pages/QRCodePage";
+import CalculatorPage from "./Pages/CalculatorPage";
+import KinshipPage from "./Pages/KinshipPage";
+import RacingGame from "./Pages/RacingGame";
 
 function App() {
   return (

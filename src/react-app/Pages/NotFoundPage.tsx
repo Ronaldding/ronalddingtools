@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import rickroll from './assets/rickroll.gif';
+import rickroll from '../assets/rickroll.gif';
 
 function NotFoundPage() {
   const navigate = useNavigate();
