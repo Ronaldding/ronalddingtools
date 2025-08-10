@@ -1,8 +1,7 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { ReactSVG } from "react-svg";
 
 // Type definitions for component props
 interface PanelProps {
@@ -234,7 +233,7 @@ function ArticleTeaser({ id, title }: { id: number; title: string }) {
   );
 }
 
-function DeviceCard({ label, description, iconSrc }: DeviceCardProps) {
+function DeviceCard({ label, description}: DeviceCardProps) {
   return (
     <div className="rounded-2xl border border-gray-200 bg-white p-6 text-center transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-sm">
       <div className="h-32 rounded-xl border border-dashed border-gray-200 mb-4 grid place-items-center">
