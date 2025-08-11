@@ -1,148 +1,258 @@
-import { useMemo, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useParams, useLocation } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
-type ArticleJSON = {
+interface ArticleData {
   id: number;
   section: string;
   title: string;
   author: string;
   publishedAt: string;
-  readMinutes?: number;
-  heroImage?: { src: string; alt?: string; caption?: string };
+  readMinutes: number;
+  heroImage: {
+    src: string;
+    alt: string;
+    caption: string;
+  };
   blocks: any[];
-  related?: { text: string; href: string }[];
-};
-
-function useQuery() {
-  const { search } = useLocation();
-  return useMemo(() => new URLSearchParams(search), [search]);
+  related: Array<{
+    text: string;
+    href: string;
+  }>;
 }
 
-export default function Article() {
-  const params = useParams();
-  const query = useQuery();
+function Article() {
+  const { id } = useParams<{ id: string }>();
+  const location = useLocation();
+  const [article, setArticle] = useState<ArticleData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Eagerly load all JSON articles via Vite glob import
-  const allModules = import.meta.glob("../Article/*.json", { eager: true }) as Record<string, any>;
-  const articles: Record<number, ArticleJSON> = {};
-  Object.values(allModules).forEach((mod: any) => {
-    const json: ArticleJSON = mod.default ?? mod; // handle JSON module default
-    if (json && typeof json.id === "number") {
-      articles[json.id] = json;
-    }
-  });
-  const availableIds = Object.keys(articles).map((x) => Number(x)).sort((a, b) => a - b);
+  useEffect(() => {
+    const fetchArticle = async () => {
+      try {
+        setIsLoading(true);
+        let articleId = id;
+        
+        // If no ID in params, try to get from location state
+        if (!articleId && location.state?.articleId) {
+          articleId = location.state.articleId;
+        }
+        
+        // Default to article 1 if no ID provided
+        if (!articleId) {
+          articleId = "1";
+        }
 
-  const idFromPath = params.id ? Number(params.id) : undefined;
-  const idFromQuery = query.get("id") ? Number(query.get("id")) : undefined;
-  const currentId = idFromPath || idFromQuery || availableIds[0];
-  const data = currentId != null ? articles[currentId] : undefined;
+        const response = await fetch(`/src/react-app/Article/${articleId}.json`);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch article: ${response.statusText}`);
+        }
+        
+        const data: ArticleData = await response.json();
+        setArticle(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Failed to load article");
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  const currentIndex = availableIds.findIndex((n) => n === currentId);
-  const prevId = currentIndex > 0 ? availableIds[currentIndex - 1] : undefined;
-  const nextId = currentIndex >= 0 && currentIndex < availableIds.length - 1 ? availableIds[currentIndex + 1] : undefined;
+    fetchArticle();
+  }, [id, location.state]);
 
-  const [error] = useState<string | null>(!data ? "文章不存在" : null);
+  const renderBlocks = (blocks: any[]) => {
+    return blocks.map((block, index) => {
+      switch (block.type) {
+        case "paragraph":
+          return <p key={index} className="mb-4 leading-relaxed">{block.text}</p>;
+        case "heading":
+          const level = block.level || 2;
+          if (level === 1) {
+            return <h1 key={index} className="text-3xl font-bold mb-4 mt-8">{block.text}</h1>;
+          } else if (level === 2) {
+            return <h2 key={index} className="text-2xl font-bold mb-4 mt-8">{block.text}</h2>;
+          } else if (level === 3) {
+            return <h3 key={index} className="text-xl font-bold mb-4 mt-8">{block.text}</h3>;
+          } else {
+            return <h4 key={index} className="text-lg font-bold mb-4 mt-8">{block.text}</h4>;
+          }
+        case "list":
+          if (block.ordered) {
+            return (
+              <ol key={index} className="list-decimal list-inside mb-4 space-y-2">
+                {block.items.map((item: string, itemIndex: number) => (
+                  <li key={itemIndex}>{item}</li>
+                ))}
+              </ol>
+            );
+          } else {
+            return (
+              <ul key={index} className="list-disc list-inside mb-4 space-y-2">
+                {block.items.map((item: string, itemIndex: number) => (
+                  <li key={itemIndex}>{item}</li>
+                ))}
+              </ul>
+            );
+          }
+        case "blockquote":
+          return <blockquote key={index} className="border-l-4 border-gray-300 pl-4 italic text-gray-700 mb-4">{block.text}</blockquote>;
+        case "table":
+          return (
+            <div key={index} className="overflow-x-auto mb-6">
+              <table className="min-w-full border border-gray-300">
+                {block.headers && (
+                  <thead>
+                    <tr>
+                      {block.headers.map((header: string, headerIndex: number) => (
+                        <th key={headerIndex} className="border border-gray-300 px-4 py-2 bg-gray-100 font-semibold">
+                          {header}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                )}
+                {block.rows && (
+                  <tbody>
+                    {block.rows.map((row: string[], rowIndex: number) => (
+                      <tr key={rowIndex}>
+                        {row.map((cell: string, cellIndex: number) => (
+                          <td key={cellIndex} className="border border-gray-300 px-4 py-2">
+                            {cell}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                )}
+              </table>
+            </div>
+          );
+        default:
+          return null;
+      }
+    });
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[#fbfbfd] text-gray-900">
+        <Header />
+        <main className="flex-1 pt-20">
+          <div className="mx-auto max-w-4xl px-6 sm:px-8 py-12">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto"></div>
+              <p className="mt-4 text-gray-600">Loading article...</p>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (error || !article) {
+    return (
+      <div className="min-h-screen bg-[#fbfbfd] text-gray-900">
+        <Header />
+        <main className="flex-1 pt-20">
+          <div className="mx-auto max-w-4xl px-6 sm:px-8 py-12">
+            <div className="text-center">
+              <h1 className="text-2xl font-semibold text-gray-900 mb-4">Article Not Found</h1>
+              <p className="text-gray-600 mb-6">{error || "The article you're looking for doesn't exist."}</p>
+              <a href="/articles" className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors">
+                ← Back to Articles
+              </a>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#fbfbfd] text-gray-900">
       <Header />
-      <main className="mx-auto max-w-4xl px-6 sm:px-8 py-10">
-        {!data && !error && <p className="text-gray-600">載入中…</p>}
-        {error && <p className="text-red-600">{error}</p>}
-        {data && (
-          <>
-            <div className="text-sm text-gray-600 mb-3">{data.section}</div>
-            <h1 className="text-[clamp(1.875rem,4vw,2.75rem)] font-bold leading-tight tracking-tight">{data.title}</h1>
-            <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between text-sm text-gray-600">
-              <div>
-                <span className="mr-3">{data.author}</span>
-                <span className="mr-3">發布：{data.publishedAt}</span>
-                {data.readMinutes && <span>閱讀時間：約 {data.readMinutes} 分鐘</span>}
+      
+      <main className="flex-1 pt-20">
+        <article className="mx-auto max-w-4xl px-6 sm:px-8 py-12">
+          {/* Article Header */}
+          <header className="mb-12">
+            <div className="mb-6">
+              <span className="inline-block px-3 py-1 text-sm font-medium text-blue-700 bg-blue-100 rounded-full">
+                {article.section}
+              </span>
+            </div>
+            
+            <h1 className="text-4xl font-bold tracking-tight mb-4">{article.title}</h1>
+            
+            <div className="flex items-center gap-6 text-gray-600 mb-8">
+              <span>By {article.author}</span>
+              <span>•</span>
+              <span>{article.publishedAt}</span>
+              <span>•</span>
+              <span>{article.readMinutes} min read</span>
+            </div>
+
+
+          </header>
+
+          {/* Hero Image */}
+          {article.heroImage && (
+            <figure className="mb-12">
+              <img
+                src={article.heroImage.src}
+                alt={article.heroImage.alt}
+                className="w-full h-64 object-cover rounded-lg"
+              />
+              <figcaption className="mt-2 text-sm text-gray-600 text-center">
+                {article.heroImage.caption}
+              </figcaption>
+            </figure>
+          )}
+
+          {/* Article Content */}
+          <div className="prose prose-lg max-w-none">
+            {renderBlocks(article.blocks)}
+          </div>
+
+          {/* Related Links */}
+          {article.related && article.related.length > 0 && (
+            <section className="mt-16 pt-8 border-t border-gray-200">
+              <h2 className="text-2xl font-semibold mb-6">Related Links</h2>
+              <div className="space-y-3">
+                {article.related.map((link, index) => (
+                  <a
+                    key={index}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block text-blue-600 hover:text-blue-800 transition-colors"
+                  >
+                    {link.text} →
+                  </a>
+                ))}
               </div>
-            </div>
-            <hr className="my-6 border-gray-200" />
+            </section>
+          )}
 
-            {data.heroImage && (
-              <figure className="mx-auto rounded-2xl overflow-hidden border border-gray-200 bg-white">
-                <img src={data.heroImage.src} alt={data.heroImage.alt || "article image"} className="w-full" />
-                {data.heroImage.caption && (
-                  <figcaption className="px-4 py-3 text-sm text-gray-600">{data.heroImage.caption}</figcaption>
-                )}
-              </figure>
-            )}
-
-            <article className="prose prose-zinc lg:prose-lg mt-8 leading-relaxed">
-              {data.blocks.map((b, i) => {
-                if (b.type === "paragraph") return <p key={i}>{b.text}</p>;
-                if (b.type === "heading") {
-                  const H = ("h" + (b.level || 2)) as any;
-                  return <H key={i}>{b.text}</H>;
-                }
-                if (b.type === "list") {
-                  return b.ordered ? (
-                    <ol key={i}>{b.items.map((t: string, k: number) => <li key={k}>{t}</li>)}</ol>
-                  ) : (
-                    <ul key={i}>{b.items.map((t: string, k: number) => <li key={k}>{t}</li>)}</ul>
-                  );
-                }
-                if (b.type === "blockquote") return <blockquote key={i}>{b.text}</blockquote>;
-                if (b.type === "table") {
-                  return (
-                    <div key={i} className="not-prose mx-auto max-w-2xl">
-                      <table className="w-full text-left">
-                        <thead>
-                          <tr>{b.headers.map((h: string, idx: number) => <th key={idx}>{h}</th>)}</tr>
-                        </thead>
-                        <tbody>
-                          {b.rows.map((row: string[], rIdx: number) => (
-                            <tr key={rIdx}>{row.map((cell, cIdx) => <td key={cIdx}>{cell}</td>)}</tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  );
-                }
-                if (b.type === "video" && b.provider === "youtube" && b.youtubeId) {
-                  return (
-                    <div key={i} className="not-prose mx-auto max-w-2xl aspect-video w-full rounded-xl overflow-hidden border border-gray-200 bg-white">
-                      <iframe className="w-full h-full" src={`https://www.youtube.com/embed/${b.youtubeId}`} title="video" frameBorder={0} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen />
-                    </div>
-                  );
-                }
-                return null;
-              })}
-            </article>
-
-            {data.related?.length ? (
-              <>
-                <hr className="my-8 border-gray-200" />
-                <section>
-                  <h3 className="text-lg font-semibold mb-3">相關閱讀</h3>
-                  <ul className="list-disc pl-5 space-y-2 text-gray-700">
-                    {data.related.map((l, i) => (
-                      <li key={i}><a className="hover:underline" href={l.href} target="_blank" rel="noreferrer">{l.text}</a></li>
-                    ))}
-                  </ul>
-                </section>
-              </>
-            ) : null}
-
-            {/* Prev / Next Navigation */}
-            <div className="mt-10 flex items-center justify-between">
-              {prevId ? (
-                <a href={`/article/id/${prevId}`} className="inline-flex items-center rounded-full border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:shadow-sm">← 上一篇</a>
-              ) : <span />}
-              {nextId ? (
-                <a href={`/article/id/${nextId}`} className="inline-flex items-center rounded-full border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:shadow-sm">下一篇 →</a>
-              ) : <span />}
-            </div>
-          </>
-        )}
+          {/* Back to Articles */}
+          <div className="mt-16 pt-8 border-t border-gray-200">
+            <a
+              href="/articles"
+              className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors"
+            >
+              ← Back to Articles
+            </a>
+          </div>
+        </article>
       </main>
+
       <Footer />
     </div>
   );
-} 
+}
+
+export default Article; 

@@ -711,7 +711,7 @@ export default function KinshipPage() {
   );
 
   return (
-    <div className="min-h-dvh relative bg-black">
+    <div className="min-h-dvh relative bg-gradient-to-b from-blue-50/90 via-blue-100/80 to-gray-50">
       <Header />
 
       <div className="relative z-10 min-h-dvh flex items-center justify-center px-4 py-8">

@@ -43,5 +43,14 @@
     "iconEmoji": "<i class='bi bi-chess'></i>",
     "category": "strategy",
     "description": "Improve your chess skills with tutorials, puzzles, and competitive gameplay against AI with 10 difficulty settings."
+  },
+  {
+    "id": "bill-gates-money",
+    "to": "/bill-gates-money",
+    "title": "Spend Bill Gates' Money",
+    "subtitle": "Simulate spending with Bill Gates' net worth.",
+    "iconEmoji": "<i class='bi bi-cash-stack'></i>",
+    "category": "simulation",
+    "description": "Fun simulation game where you manage and spend a fortune equal to Bill Gates' net worth"
   }
 ]

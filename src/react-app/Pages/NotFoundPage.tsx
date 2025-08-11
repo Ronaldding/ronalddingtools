@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import rickroll from '../assets/rickroll.gif';
-import Footer from '../components/Footer';
 
 function NotFoundPage() {
   const navigate = useNavigate();
@@ -60,7 +59,6 @@ function NotFoundPage() {
           ></div>
         ))}
       </div>
-      <Footer />
     </div>
   );
 }

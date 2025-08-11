@@ -10,6 +10,9 @@ import ToolsPage from "./Pages/ToolsPage";
 import GamesPage from "./Pages/GamesPage";
 import ArticlesPage from "./Pages/ArticlesPage";
 import Article from "./Pages/Article";
+import AISummarizerPage from "./Pages/AISummarizerPage";
+import ChequeConverterPage from "./Pages/ChequeConverterPage";
+import BillGatesMoneyPage from "./Pages/BillGatesMoneyPage";
 import { useEffect } from "react";
 
 function ScrollToTop() {
@@ -34,7 +37,10 @@ function App() {
         <Route path="/games" element={<GamesPage />} />
         <Route path="/articles" element={<ArticlesPage />} />
         <Route path="/article" element={<Article />} />
-        <Route path="/article/id/:id/*" element={<Article />} />
+                              <Route path="/ai-summarizer" element={<AISummarizerPage />} />
+                      <Route path="/cheque-converter" element={<ChequeConverterPage />} />
+                      <Route path="/bill-gates-money" element={<BillGatesMoneyPage />} />
+                      <Route path="/article/id/:id/*" element={<Article />} />
         <Route path="*" element={<NotFoundPage />} />
         {/* The KinshipPage component is used for kinship calculations */}
       </Routes>

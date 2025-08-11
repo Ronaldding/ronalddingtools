@@ -1,5 +1,23 @@
 [
   {
+    "id": "calculator",
+    "to": "/calculator",
+    "title": "Calculator",
+    "subtitle": "Fast, precise calculations with a crisp UI.",
+    "iconEmoji": "<i class='bi bi-calculator'></i>",
+    "category": "utility",
+    "description": "Advanced calculator with scientific functions and clean interface"
+  },
+  {
+    "id": "ai-summarizer",
+    "to": "/ai-summarizer",
+    "title": "AI Text Summarizer",
+    "subtitle": "Get instant AI-powered summaries of any text using Cloudflare AI.",
+    "iconEmoji": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"currentColor\" class=\"w-6 h-6\"><path d=\"M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z\"/></svg>",
+    "category": "ai",
+    "description": "AI-powered text summarization tool that extracts key points and main ideas"
+  },
+  {
     "id": "qr-code",
     "to": "/qr-code",
     "title": "QR Code Generator",
@@ -89,15 +107,7 @@
     "category": "education",
     "description": "Quick links to Exam Easy past papers and examination resources for Hong Kong students"
   },
-  {
-    "id": "bill-gates-money",
-    "to": "/bill-gates-money",
-    "title": "Spend Bill Gates' Money",
-    "subtitle": "Simulate spending with Bill Gates' net worth.",
-    "iconEmoji": "<i class='bi bi-cash-stack'></i>",
-    "category": "game",
-    "description": "Fun simulation game where you manage and spend a fortune equal to Bill Gates' net worth"
-  },
+
   {
     "id": "safe-period",
     "to": "/safe-period",
