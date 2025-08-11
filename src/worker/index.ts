@@ -171,4 +171,54 @@ Now, please parse the following input and output only the number:`;
   }
 });
 
+// Chatbot endpoint for general conversation
+app.post("/api/chat", async (c) => {
+  try {
+    const { message, conversationHistory = [] } = await c.req.json();
+
+    if (!message || typeof message !== "string") {
+      return c.json({ error: "Message is required" }, 400);
+    }
+
+    // Prepare conversation context
+    const messages = [
+      {
+        role: "system",
+        content: `You are Ronald Ding's AI assistant, a helpful and knowledgeable chatbot. You help users with various tasks, answer questions, and provide useful information. Be friendly, concise, and helpful. You can help with:
+        
+- General questions and information
+- Technical assistance
+- Writing and editing help
+- Problem solving
+- Recommendations and advice
+
+Keep responses conversational and under 200 words unless more detail is specifically requested.`
+      },
+      ...conversationHistory.slice(-10), // Keep last 10 messages for context
+      {
+        role: "user",
+        content: message
+      }
+    ];
+
+    const response = await c.env.AI.run("@cf/meta/llama-2-7b-chat-int8", {
+      messages: messages,
+      stream: false
+    });
+
+    return c.json({
+      success: true,
+      response: response.response,
+      timestamp: new Date().toISOString()
+    });
+
+  } catch (error) {
+    console.error("Chatbot error:", error);
+    return c.json({
+      error: "Failed to get response",
+      details: error instanceof Error ? error.message : "Unknown error"
+    }, 500);
+  }
+});
+
 export default app;

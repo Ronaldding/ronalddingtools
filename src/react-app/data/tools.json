@@ -18,6 +18,15 @@
     "description": "AI-powered text summarization tool that extracts key points and main ideas"
   },
   {
+    "id": "chatbot",
+    "to": "/chatbot",
+    "title": "Chatbot",
+    "subtitle": "Intelligent AI assistant for help and support.",
+    "iconEmoji": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"currentColor\" class=\"w-6 h-6\"><path d=\"M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h4l4 4 4-4h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6v-2h12v2zm0-3H6V6h12v2z\"/></svg>",
+    "category": "ai",
+    "description": "AI-powered chatbot assistant that helps with various tasks and answers questions"
+  },
+  {
     "id": "qr-code",
     "to": "/qr-code",
     "title": "QR Code Generator",

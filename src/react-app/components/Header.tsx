@@ -28,7 +28,6 @@ function Header() {
               <li><a href="/tools" className="text-black hover:text-gray-600 transition-colors">Tools</a></li>
               <li><a href="/games" className="text-black hover:text-gray-600 transition-colors">Games</a></li>
               <li><a href="/articles" className="text-black hover:text-gray-600 transition-colors">Articles</a></li>
-              <li><a href="https://llm.ronaldding.com" className="text-black hover:text-gray-600 transition-colors" target="_blank" rel="noopener noreferrer">LLM</a></li>
               <li><a href="https://tv.ronaldding.com" className="text-black hover:text-gray-600 transition-colors" target="_blank" rel="noopener noreferrer">TV</a></li>
             </ul>
           </nav>
@@ -104,17 +103,6 @@ function Header() {
                     onClick={closeMenu}
                   >
                     Articles
-                  </a>
-                </li>
-                <li className="border-t border-gray-200 pt-4">
-                  <a 
-                    href="https://llm.ronaldding.com" 
-                    className="block py-3 px-4 text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    onClick={closeMenu}
-                  >
-                    LLM
                   </a>
                 </li>
                 <li>

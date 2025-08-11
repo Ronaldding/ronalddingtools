@@ -13,6 +13,7 @@ import Article from "./Pages/Article";
 import AISummarizerPage from "./Pages/AISummarizerPage";
 import ChequeConverterPage from "./Pages/ChequeConverterPage";
 import BillGatesMoneyPage from "./Pages/BillGatesMoneyPage";
+import ChatbotPage from "./Pages/Chatbot";
 import { useEffect } from "react";
 
 function ScrollToTop() {
@@ -40,6 +41,7 @@ function App() {
                               <Route path="/ai-summarizer" element={<AISummarizerPage />} />
                       <Route path="/cheque-converter" element={<ChequeConverterPage />} />
                       <Route path="/bill-gates-money" element={<BillGatesMoneyPage />} />
+                      <Route path="/chatbot" element={<ChatbotPage />} />
                       <Route path="/article/id/:id/*" element={<Article />} />
         <Route path="*" element={<NotFoundPage />} />
         {/* The KinshipPage component is used for kinship calculations */}
