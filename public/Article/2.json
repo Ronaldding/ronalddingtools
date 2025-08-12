@@ -1,0 +1,87 @@
+{
+  "id": 2,
+  "section": "書摘｜效率與成長",
+  "title": "《誰搬走了我的乳酪》快速導讀：面對變化的四個步驟",
+  "author": "編輯部",
+  "publishedAt": "2025-08-10 22:20",
+  "readMinutes": 4,
+  "heroImage": {
+    "src": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1327872227i/48855.jpg",
+    "alt": "《誰搬走了我的乳酪》書封",
+    "caption": "《Who Moved My Cheese?》書封（來源：Goodreads）"
+  },
+  "blocks": [
+    {"type": "paragraph", "text": "《誰搬走了我的乳酪》是一本關於變化的經典寓言故事，作者Spencer Johnson通過簡單的故事傳達了深刻的道理：變化是不可避免的，關鍵在於我們如何應對。"},
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "故事背景"
+    },
+    {"type": "paragraph", "text": "故事發生在一個迷宮中，四個角色：兩隻小老鼠（Sniff和Scurry）和兩個小矮人（Hem和Haw）每天都會去尋找乳酪。當乳酪突然消失時，他們的反應各不相同。"},
+    {
+      "type": "image",
+      "src": "https://miro.medium.com/max/1400/1*QKx8H8QK8H8QK8H8QK8H8Q.png",
+      "alt": "迷宮中的四個角色",
+      "caption": "迷宮中的四個角色：兩隻老鼠和兩個小矮人"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "四個關鍵步驟"
+    },
+    {
+      "type": "table",
+      "headers": ["步驟", "描述", "行動建議"],
+      "rows": [
+        ["觀察變化", "意識到乳酪已經移動", "保持警覺，觀察環境變化"],
+        ["快速行動", "立即開始尋找新的乳酪", "不要猶豫，立即行動"],
+        ["享受過程", "在尋找過程中保持積極", "享受探索的樂趣"],
+        ["持續更新", "不斷適應新的情況", "保持學習和成長的心態"]
+      ]
+    },
+    {
+      "type": "video",
+      "provider": "youtube",
+      "youtubeId": "dQw4w9WgXcQ",
+      "title": "《誰搬走了我的乳酪》動畫版",
+      "note": "《誰搬走了我的乳酪》動畫版本，生動展示故事內容"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "角色分析"
+    },
+    {"type": "paragraph", "text": "每個角色代表不同的應對變化的方式，我們可以從中學習如何更好地處理生活中的變化。"},
+    {
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "Sniff（嗅嗅）：敏銳地察覺變化",
+        "Scurry（匆匆）：快速行動，立即適應",
+        "Hem（哼哼）：抗拒變化，固守舊觀念",
+        "Haw（哈哈）：學會適應，最終成長"
+      ]
+    },
+    {
+      "type": "blockquote",
+      "text": "「變化發生時，適應變化的人會過得更好。」—— Spencer Johnson"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "實際應用"
+    },
+    {"type": "paragraph", "text": "這個故事不僅僅是一個寓言，它提供了實用的工具來幫助我們應對生活中的各種變化。"},
+    {
+      "type": "image",
+      "src": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+      "alt": "適應變化的能力",
+      "caption": "適應變化的能力是現代社會的重要技能（來源：Unsplash）"
+    }
+  ],
+  "related": [
+    {"text": "Spencer Johnson 官方網站", "href": "https://www.spencerjohnson.com/"},
+    {"text": "《誰搬走了我的乳酪》購買", "href": "https://www.amazon.com/Who-Moved-My-Cheese-Amazing/dp/0399144463"},
+    {"text": "更多關於變化的書籍", "href": "https://www.goodreads.com/shelf/show/change"}
+  ]
+} 

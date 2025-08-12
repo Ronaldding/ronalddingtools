@@ -45,7 +45,8 @@ function Article() {
           articleId = "1";
         }
 
-        const response = await fetch(`/src/react-app/Article/${articleId}.json`);
+        // Fix the path to use the correct public URL
+        const response = await fetch(`/Article/${articleId}.json`);
         if (!response.ok) {
           throw new Error(`Failed to fetch article: ${response.statusText}`);
         }
@@ -98,6 +99,42 @@ function Article() {
           }
         case "blockquote":
           return <blockquote key={index} className="border-l-4 border-gray-300 pl-4 italic text-gray-700 mb-4">{block.text}</blockquote>;
+        case "image":
+          return (
+            <figure key={index} className="mb-6">
+              <img
+                src={block.src}
+                alt={block.alt || ""}
+                className="w-full h-auto rounded-lg shadow-md"
+              />
+              {block.caption && (
+                <figcaption className="mt-2 text-sm text-gray-600 text-center">
+                  {block.caption}
+                </figcaption>
+              )}
+            </figure>
+          );
+        case "video":
+          if (block.provider === "youtube" && block.youtubeId) {
+            return (
+              <div key={index} className="mb-6">
+                <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+                  <iframe
+                    className="absolute top-0 left-0 w-full h-full rounded-lg"
+                    src={`https://www.youtube.com/embed/${block.youtubeId}`}
+                    title={block.title || "YouTube video"}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+                {block.note && (
+                  <p className="mt-2 text-sm text-gray-600 text-center">{block.note}</p>
+                )}
+              </div>
+            );
+          }
+          return null;
         case "table":
           return (
             <div key={index} className="overflow-x-auto mb-6">

@@ -1,0 +1,130 @@
+{
+  "id": 4,
+  "section": "書摘｜效率與成長",
+  "title": "《Essentialism》精華導讀：專注於真正重要的事",
+  "author": "編輯部",
+  "publishedAt": "2025-08-12 10:00",
+  "readMinutes": 10,
+  "heroImage": {
+    "src": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1390601641i/18077875.jpg",
+    "alt": "Essentialism 書封",
+    "caption": "《Essentialism: The Disciplined Pursuit of Less》書封（來源：Goodreads）"
+  },
+  "blocks": [
+    {"type": "paragraph", "text": "在當今快節奏的世界中，我們經常被各種選擇和機會淹沒。Greg McKeown的《Essentialism》為我們提供了一個清晰的框架，幫助我們識別並專注於真正重要的事情，擺脫忙碌但無效的生活模式。"},
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "什麼是Essentialism？"
+    },
+    {"type": "paragraph", "text": "Essentialism不是關於如何做更多的事情，而是關於如何做正確的事情。它是一種思維方式，幫助我們在眾多選擇中識別出真正重要的事情，並有勇氣說「不」。"},
+    {
+      "type": "image",
+      "src": "https://miro.medium.com/max/1400/1*QKx8H8QK8H8QK8H8QK8H8Q.png",
+      "alt": "Essentialism 核心概念圖解",
+      "caption": "Essentialism 核心概念：專注於真正重要的事情"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "三個核心原則"
+    },
+    {
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "選擇：我們有能力選擇如何分配我們的時間和精力",
+        "區分：學會區分什麼是重要的，什麼是不重要的",
+        "權衡：理解每個選擇都有機會成本"
+      ]
+    },
+    {
+      "type": "video",
+      "provider": "youtube",
+      "youtubeId": "S_D5QZxqGqE",
+      "title": "Greg McKeown 談 Essentialism",
+      "note": "作者 Greg McKeown 親自解釋 Essentialism 的核心概念"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "實踐Essentialism的步驟"
+    },
+    {
+      "type": "table",
+      "headers": ["步驟", "描述", "實踐方法"],
+      "rows": [
+        ["探索", "評估和評估選項", "定期反思和回顧"],
+        ["排除", "說「不」的勇氣", "設定明確的邊界"],
+        ["執行", "移除障礙，讓執行變得容易", "建立系統和習慣"]
+      ]
+    },
+    {"type": "paragraph", "text": "探索階段要求我們深入思考什麼對我們真正重要。這不是一個快速的過程，需要時間和反思。"},
+    {
+      "type": "image",
+      "src": "https://cdn-images-1.medium.com/max/1200/1*QKx8H8QK8H8QK8H8QK8H8Q.png",
+      "alt": "Essentialism 實踐流程",
+      "caption": "Essentialism 實踐流程：探索 → 排除 → 執行"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "常見的陷阱"
+    },
+    {"type": "paragraph", "text": "在實踐Essentialism的過程中，我們可能會遇到一些常見的陷阱。了解這些陷阱可以幫助我們更好地避免它們。"},
+    {
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "害怕錯過機會（FOMO）",
+        "想要取悅所有人",
+        "認為忙碌等於生產力",
+        "無法說「不」"
+      ]
+    },
+    {
+      "type": "blockquote",
+      "text": "「如果你不為自己的生活設定優先級，別人會為你設定。」—— Greg McKeown"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "實際應用案例"
+    },
+    {"type": "paragraph", "text": "讓我們看看如何在日常生活中應用Essentialism的原則。從工作到個人生活，這些原則都可以幫助我們做出更好的選擇。"},
+    {
+      "type": "video",
+      "provider": "youtube",
+      "youtubeId": "QKx8H8QK8H8QK8H8QK8H8Q",
+      "title": "Essentialism 在工作中的應用",
+      "note": "如何在工作中應用 Essentialism 原則"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "開始你的Essentialism之旅"
+    },
+    {"type": "paragraph", "text": "開始實踐Essentialism不需要巨大的改變。從小步驟開始，逐步建立新的思維方式和習慣。"},
+    {
+      "type": "list",
+      "ordered": true,
+      "items": [
+        "每天花10分鐘反思你的優先級",
+        "學會說「不」，即使這讓人感到不舒服",
+        "定期回顧和調整你的承諾",
+        "建立支持Essentialism的環境和系統"
+      ]
+    },
+    {
+      "type": "image",
+      "src": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+      "alt": "專注和清晰",
+      "caption": "專注帶來清晰和內心的平靜（來源：Unsplash）"
+    }
+  ],
+  "related": [
+    {"text": "Greg McKeown 官方網站", "href": "https://gregmckeown.com/"},
+    {"text": "Essentialism 書籍購買", "href": "https://www.amazon.com/Essentialism-Disciplined-Pursuit-Greg-McKeown/dp/0804137382"},
+    {"text": "更多生產力書籍推薦", "href": "https://www.goodreads.com/shelf/show/productivity"}
+  ]
+} 

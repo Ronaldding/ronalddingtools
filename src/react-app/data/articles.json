@@ -2,14 +2,14 @@
   {
     "id": 1,
     "to": "/article/id/1",
-    "title": "太宰治《人間失格》導讀：文本結構、主題母題與時代脈絡",
-    "subtitle": "深入解析《人間失格》的文學結構、核心主題與時代背景，探索太宰治筆下的人性困境。",
-    "iconEmoji": "📚",
-    "section": "藝文｜評論專題",
-    "readMinutes": 6,
-    "publishedAt": "2025-08-10 22:12",
-    "category": "literature",
-    "description": "Comprehensive analysis of Dazai Osamu's 'No Longer Human'"
+    "title": "64歲天王殺手凸出大肚腩開騷 肥胖身材無損靚聲但有一個影響",
+    "subtitle": "周華健在內地演唱會現場，大肚腩多次頂著咪高峰，但無改粉絲熱情，氣氛熱烈。",
+    "iconEmoji": "🎤",
+    "section": "娛樂｜即時新聞",
+    "readMinutes": 8,
+    "publishedAt": "2025-08-12 06:30",
+    "category": "entertainment",
+    "description": "周華健演唱會現場報導，關注健康狀況與粉絲反應"
   },
   {
     "id": 2,
@@ -34,5 +34,17 @@
     "readMinutes": 7,
     "publishedAt": "2025-08-11 00:00",
     "category": "philosophy"
+  },
+  {
+    "id": 4,
+    "to": "/article/id/4",
+    "title": "《Essentialism》精華導讀：專注於真正重要的事",
+    "subtitle": "學習如何識別並專注於真正重要的事情，擺脫忙碌但無效的生活模式。",
+    "iconEmoji": "🎯",
+    "section": "書摘｜效率與成長",
+    "readMinutes": 10,
+    "publishedAt": "2025-08-12 10:00",
+    "category": "productivity",
+    "description": "Essential guide to focusing on what truly matters based on Greg McKeown's 'Essentialism'"
   }
 ] 

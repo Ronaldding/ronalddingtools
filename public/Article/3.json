@@ -1,0 +1,105 @@
+{
+  "id": 3,
+  "section": "書評｜閱讀紀錄",
+  "title": "《我們住在焦慮星球》閱讀紀錄",
+  "author": "編輯部",
+  "publishedAt": "2025-08-11 00:00",
+  "readMinutes": 7,
+  "heroImage": {
+    "src": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1521136360i/36381041.jpg",
+    "alt": "《我們住在焦慮星球》書封",
+    "caption": "《Notes on a Nervous Planet》書封（來源：Goodreads）"
+  },
+  "blocks": [
+    {"type": "paragraph", "text": "在當今這個充滿焦慮的時代，Matt Haig的《我們住在焦慮星球》為我們提供了一劑良藥。這本書不僅分析了現代社會的焦慮根源，更提供了實用的解決方案。"},
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "作者背景"
+    },
+    {"type": "paragraph", "text": "Matt Haig是一位英國作家，曾經歷過嚴重的抑鬱症和焦慮症。他的親身經歷讓這本書更具說服力和實用性。"},
+    {
+      "type": "image",
+      "src": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+      "alt": "Matt Haig 作者照片",
+      "caption": "Matt Haig，英國作家和心理健康倡導者"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "現代焦慮的根源"
+    },
+    {"type": "paragraph", "text": "Haig認為，現代社會的焦慮主要來源於技術的快速發展、社交媒體的影響、以及我們對完美的不切實際的追求。"},
+    {
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "社交媒體的比較文化",
+        "24/7的連接和通知",
+        "對完美的追求",
+        "信息過載",
+        "工作與生活的界限模糊"
+      ]
+    },
+    {
+      "type": "video",
+      "provider": "youtube",
+      "youtubeId": "dQw4w9WgXcQ",
+      "title": "Matt Haig 談焦慮與現代生活",
+      "note": "Matt Haig 分享他對現代焦慮的看法和解決方案"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "實用的解決方案"
+    },
+    {"type": "paragraph", "text": "這本書不僅僅是問題的診斷，更重要的是提供了實用的解決方案。"},
+    {
+      "type": "table",
+      "headers": ["問題", "解決方案", "實踐建議"],
+      "rows": [
+        ["社交媒體焦慮", "數位排毒", "設定使用時間限制"],
+        ["工作壓力", "設定邊界", "學會說「不」"],
+        ["完美主義", "接受不完美", "慶祝小成就"],
+        ["信息過載", "選擇性關注", "關閉不必要的通知"]
+      ]
+    },
+    {
+      "type": "blockquote",
+      "text": "「焦慮不是你的錯，但處理它是你的責任。」—— Matt Haig"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "個人反思"
+    },
+    {"type": "paragraph", "text": "閱讀這本書讓我重新審視了自己的生活習慣，特別是對技術的使用。我開始意識到，真正的連接不是通過屏幕，而是通過真實的人際互動。"},
+    {
+      "type": "image",
+      "src": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+      "alt": "內心的平靜",
+      "caption": "尋找內心的平靜是現代人的重要課題（來源：Unsplash）"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "推薦給誰"
+    },
+    {"type": "paragraph", "text": "這本書特別適合那些感到被現代生活壓垮的人，以及想要找到平衡和內心平靜的讀者。"},
+    {
+      "type": "list",
+      "ordered": true,
+      "items": [
+        "經常感到焦慮和壓力的現代人",
+        "想要改善心理健康的人",
+        "對技術和社交媒體感到困擾的人",
+        "尋求生活平衡的人"
+      ]
+    }
+  ],
+  "related": [
+    {"text": "Matt Haig 官方網站", "href": "https://matthaig.com/"},
+    {"text": "《我們住在焦慮星球》購買", "href": "https://www.amazon.com/Notes-Nervous-Planet-Matt-Haig/dp/1786892670"},
+    {"text": "更多心理健康書籍", "href": "https://www.goodreads.com/shelf/show/mental-health"}
+  ]
+} 
